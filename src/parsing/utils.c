@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_types_utils.c                                :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:38:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/10 10:12:18 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:51:09 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,21 @@ bool	parsing_is_type(char *type, char *name, size_t len, size_t required)
 
 	if (ft_strcmp(type, name) != 0)
 		return (false);
+	n++;
 	if (len != required)
 	{
-		printf("Incorrect n. %d specs length. Current: %d, required: %d",
-			n, len, required);
+		printf("Incorrect element n.%d specs length."
+			" Required: %ld, current: %ld\n",
+			n, required, len);
 		return (false);
 	}
 	return (true);
 }
 
 // TODO: more secure
+// TODO: message when not in range
 bool	parse_vec(char *spec, t_vec *vec, float min, float max)
 {
-	size_t	i;
-
 	vec->x = ft_atoi(spec);
 	spec = ft_strchr(spec, ',');
 	if (!spec || vec->x < min || vec->x > max)
@@ -50,9 +51,7 @@ bool	parse_color(char *spec, int *color)
 	int		r;
 	int		g;
 	int		b;
-	size_t	i;
 
-	ft_clear_atoi
 	r = ft_atoi(spec);
 	spec = ft_strchr(spec, ',');
 	if (!spec || r < 0 || r > 255)
@@ -67,8 +66,17 @@ bool	parse_color(char *spec, int *color)
 }
 
 // TODO: more secure
+// TODO: message when not in range
 bool	parse_float(char *spec, float *value, float min, float max)
 {
-	*value = ft_atof(spec);
+	*value = (float) ft_atof(spec);
+	return (*value >= min && *value <= max);
+}
+
+// TODO: more secure
+// TODO: message when not in range
+bool	parse_int(char *spec, int *value, int min, int max)
+{
+	*value = ft_atoi(spec);
 	return (*value >= min && *value <= max);
 }
