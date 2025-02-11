@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:57:37 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/10 14:56:34 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:51:39 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ typedef struct s_vec
 
 // --- TYPES --- //
 
-struct	s_ambient
+typedef struct s_ambient
 {
 	float	ratio;
 	int		color;
-};
+}	t_ambient;
 
 typedef struct s_camera
 {
@@ -45,43 +45,43 @@ typedef struct s_camera
 	t_image	*image;
 }	t_camera;
 
-struct s_light
+typedef struct s_light
 {
 	t_vec	pos;
 	float	brightness;
 	int		color;
-};
+}	t_light;
 
-struct s_sphere
+typedef struct s_sphere
 {
 	t_vec	pos;
 	float	diameter;
 	int		color;
-};
+}	t_sphere;
 
-struct s_plane
+typedef struct s_plane
 {
 	t_vec	pos;
 	t_vec	rot;
 	int		color;
-};
+}	t_plane;
 
-struct s_cylinder
+typedef struct s_cylinder
 {
 	t_vec	pos;
 	t_vec	rot;
 	float	diameter;
 	float	height;
 	int		color;
-};
+}	t_cylinder;
 
-struct s_cone
+typedef struct s_cone
 {
 	t_vec	pos;
 	t_vec	rot;
 	float	base_width;
 	float	height;
 	int		color;
-};
+}	t_cone;
 
 #endif

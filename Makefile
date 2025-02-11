@@ -6,7 +6,7 @@
 #    By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/22 08:59:59 by dvan-hum          #+#    #+#              #
-#    Updated: 2025/02/10 15:30:03 by dvan-hum         ###   ########.fr        #
+#    Updated: 2025/02/11 17:04:07 by dvan-hum         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = miniRT
 
 CC = gcc -Wall -Wextra -Werror -O3
 
-SRC = events.c main.c mlx.c vector.c view.c \
+SRC = events.c intersect.c main.c mlx.c vector.c view.c \
 	parsing/parsing.c parsing/types1.c parsing/types2.c parsing/utils.c
 OBJ = $(SRC:%.c=obj/%.o)
 INCLUDES = minirt.h types.h

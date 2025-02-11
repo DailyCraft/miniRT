@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:38:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/10 15:51:09 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:54:00 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ bool	parsing_is_type(char *type, char *name, size_t len, size_t required)
 // TODO: message when not in range
 bool	parse_vec(char *spec, t_vec *vec, float min, float max)
 {
-	vec->x = ft_atoi(spec);
+	vec->x = ft_atof(spec);
 	spec = ft_strchr(spec, ',');
 	if (!spec || vec->x < min || vec->x > max)
 		return (false);
-	vec->y = ft_atoi(spec);
-	spec = ft_strchr(spec, ',');
+	vec->y = ft_atof(spec + 1);
+	spec = ft_strchr(spec + 1, ',');
 	if (!spec || vec->y < min || vec->y > max)
 		return (false);
-	vec->z = ft_atoi(spec);
+	vec->z = ft_atof(spec + 1);
 	return (vec->z >= min && vec->z <= max);
 }
 
