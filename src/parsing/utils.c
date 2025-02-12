@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:38:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/11 16:54:00 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:58:34 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,38 +31,43 @@ bool	parsing_is_type(char *type, char *name, size_t len, size_t required)
 
 // TODO: more secure
 // TODO: message when not in range
-bool	parse_vec(char *spec, t_vec *vec, float min, float max)
+bool	parse_vec(char *spec, t_vec *vec, float limit, bool normalized)
 {
-	vec->x = ft_atof(spec);
-	spec = ft_strchr(spec, ',');
-	if (!spec || vec->x < min || vec->x > max)
+	char	*str;
+
+	str = spec;
+	vec->x = ft_atof(str);
+	str = ft_strchr(str, ',');
+	if (!str || vec->x < -limit || vec->x > limit)
 		return (false);
-	vec->y = ft_atof(spec + 1);
-	spec = ft_strchr(spec + 1, ',');
-	if (!spec || vec->y < min || vec->y > max)
+	vec->y = ft_atof(str + 1);
+	str = ft_strchr(str + 1, ',');
+	if (!str || vec->y < -limit || vec->y > limit)
 		return (false);
-	vec->z = ft_atof(spec + 1);
-	return (vec->z >= min && vec->z <= max);
+	vec->z = ft_atof(str + 1);
+	if (vec->z < -limit && vec->z > limit)
+		return (false);
+	if (normalized && get_magnitude(vec) != 1)
+	{
+		printf("The vector %s is not normilized!\n", spec);
+		return (false);
+	}
+	return (true);
 }
 
 // TODO: more secure
-bool	parse_color(char *spec, int *color)
+bool	parse_color(char *spec, t_color *color)
 {
-	int		r;
-	int		g;
-	int		b;
-
-	r = ft_atoi(spec);
+	color->r = ft_atoi(spec);
 	spec = ft_strchr(spec, ',');
-	if (!spec || r < 0 || r > 255)
+	if (!spec)
 		return (false);
-	g = ft_atoi(spec);
-	spec = ft_strchr(spec, ',');
-	if (!spec || g < 0 || g > 255)
+	color->g = ft_atoi(spec + 1);
+	spec = ft_strchr(spec + 1, ',');
+	if (!spec)
 		return (false);
-	b = ft_atoi(spec);
-	*color = ft_rgb(r, g, b);
-	return (b >= 0 && b <= 255);
+	color->b = ft_atoi(spec + 1);
+	return (true);
 }
 
 // TODO: more secure

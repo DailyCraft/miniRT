@@ -6,81 +6,91 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:17:33 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/10 15:57:48 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:24:22 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	parse_ambient(t_element *element, char **specs, size_t len)
+int	parse_ambient(t_data *data, char **specs, size_t len)
 {
 	int	result;
 
 	if (!parsing_is_type(specs[0], "A", len, 3))
 		return (0);
-	element->type = AMBIENT;
-	result = parse_float(specs[1], &element->ambient.ratio, 0, 1)
-		&& parse_color(specs[2], &element->ambient.color);
+	if (data->ambient)
+	{
+		printf("Multiple ambient light is unallowed!\n");
+		return (2);
+	}
+	data->ambient = malloc(sizeof(t_ambient));
+	result = parse_float(specs[1], &data->ambient->brightness, 0, 1)
+		&& parse_color(specs[2], &data->ambient->color);
 	if (result == 0)
 		result = 2;
 	return (result);
 }
 
-int	parse_camera(t_element *element, char **specs, size_t len)
+int	parse_camera(t_data *data, char **specs, size_t len)
 {
-	int	result;
+	int			result;
+	t_camera	*camera;
 
 	if (!parsing_is_type(specs[0], "C", len, 4))
 		return (false);
-	element->type = CAMERA;
-	result = parse_vec(specs[1], &element->camera.pos, -FLT_MAX, FLT_MAX)
-		&& parse_vec(specs[2], &element->camera.rot, -1, 1)
-		&& parse_float(specs[3], &element->camera.fov, 0, 180);
+	camera = malloc(sizeof(t_camera));
+	camera->image = NULL;
+	ft_lstadd_back(&data->cameras, ft_lstnew(camera));
+	result = parse_vec(specs[1], &camera->pos, FLT_MAX, false)
+		&& parse_vec(specs[2], &camera->rot, 1, true)
+		&& parse_float(specs[3], &camera->fov, 0, 180);
 	if (result == 0)
 		result = 2;
 	return (result);
 }
 
-int	parse_light(t_element *element, char **specs, size_t len)
+int	parse_light(t_data *data, char **specs, size_t len)
 {
-	int	result;
+	int		result;
+	t_light	*light;
 
 	if (!parsing_is_type(specs[0], "L", len, 4))
 		return (false);
-	element->type = LIGHT;
-	result = parse_vec(specs[1], &element->light.pos, -FLT_MAX, FLT_MAX)
-		&& parse_float(specs[2], &element->light.brightness, 0, 1)
-		&& parse_color(specs[3], &element->light.color);
+	light = malloc(sizeof(t_light));
+	ft_lstadd_back(&data->lights, ft_lstnew(light));
+	result = parse_vec(specs[1], &light->pos, FLT_MAX, false)
+		&& parse_float(specs[2], &light->brightness, 0, 1)
+		&& parse_color(specs[3], &light->color);
 	if (result == 0)
 		result = 2;
 	return (result);
 }
 
-int	parse_sphere(t_element *element, char **specs, size_t len)
+int	parse_sphere(t_object *object, char **specs, size_t len)
 {
 	int	result;
 
 	if (!parsing_is_type(specs[0], "sp", len, 4))
 		return (false);
-	element->type = SPHERE;
-	result = parse_vec(specs[1], &element->sphere.pos, -FLT_MAX, FLT_MAX)
-		&& parse_float(specs[2], &element->sphere.diameter, 0, FLT_MAX)
-		&& parse_color(specs[3], &element->sphere.color);
+	object->type = SPHERE;
+	result = parse_vec(specs[1], &object->pos, FLT_MAX, false)
+		&& parse_float(specs[2], &object->sphere.diameter, 0, FLT_MAX)
+		&& parse_color(specs[3], &object->color);
 	if (result == 0)
 		result = 2;
 	return (result);
 }
 
-int	parse_plane(t_element *element, char **specs, size_t len)
+int	parse_plane(t_object *object, char **specs, size_t len)
 {
 	int	result;
 
 	if (!parsing_is_type(specs[0], "pl", len, 4))
 		return (false);
-	element->type = PLANE;
-	result = parse_vec(specs[1], &element->plane.pos, -FLT_MAX, FLT_MAX)
-		&& parse_vec(specs[2], &element->plane.rot, -1, 1)
-		&& parse_color(specs[3], &element->sphere.color);
+	object->type = PLANE;
+	result = parse_vec(specs[1], &object->pos, FLT_MAX, false)
+		&& parse_vec(specs[2], &object->rot, 1, true)
+		&& parse_color(specs[3], &object->color);
 	if (result == 0)
 		result = 2;
 	return (result);

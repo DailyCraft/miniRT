@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:17:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/10 13:20:00 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:05:50 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,11 @@ int	key_hook(int key, t_data *data)
 int	expose_hook(t_data *data)
 {
 	t_camera	*camera;
-	int			y;
-	int			x;
 
+	mlx_string_put(data->mlx, data->window,
+		WIDTH / 2, HEIGHT / 2, 0xffffff, "Loading...");
 	camera = data->cameras->content;
-	camera->image = mlx_create_image(data);
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			camera->image->data[y * WIDTH + x] = get_color(data, camera, x, y);
-			x++;
-		}
-		y++;
-	}
+	update_image(data, camera);
 	mlx_put_image_to_window(data->mlx, data->window, camera->image->ptr, 0, 0);
 	return (0);
 }

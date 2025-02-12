@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:57:37 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/11 15:51:39 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:38:39 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ typedef struct s_image
 	int		endian;
 }	t_image;
 
+typedef union u_color
+{
+	int	color;
+	struct
+	{
+		unsigned char	b;
+		unsigned char	g;
+		unsigned char	r;
+	};
+}	t_color;
+
 typedef struct s_vec
 {
 	float	x;
@@ -29,13 +40,18 @@ typedef struct s_vec
 	float	z;
 }	t_vec;
 
-// --- TYPES --- //
-
 typedef struct s_ambient
 {
-	float	ratio;
-	int		color;
+	float	brightness;
+	t_color	color;
 }	t_ambient;
+
+typedef struct s_light
+{
+	t_vec	pos;
+	float	brightness;
+	t_color	color;
+}	t_light;
 
 typedef struct s_camera
 {
@@ -45,43 +61,38 @@ typedef struct s_camera
 	t_image	*image;
 }	t_camera;
 
-typedef struct s_light
+typedef enum e_type
 {
-	t_vec	pos;
-	float	brightness;
-	int		color;
-}	t_light;
+	SPHERE,
+	PLANE,
+	CYLINDER,
+	CONE
+}	t_type;
 
-typedef struct s_sphere
+typedef struct s_object
 {
-	t_vec	pos;
-	float	diameter;
-	int		color;
-}	t_sphere;
-
-typedef struct s_plane
-{
+	t_type	type;
 	t_vec	pos;
 	t_vec	rot;
-	int		color;
-}	t_plane;
+	t_color	color;
 
-typedef struct s_cylinder
-{
-	t_vec	pos;
-	t_vec	rot;
-	float	diameter;
-	float	height;
-	int		color;
-}	t_cylinder;
-
-typedef struct s_cone
-{
-	t_vec	pos;
-	t_vec	rot;
-	float	base_width;
-	float	height;
-	int		color;
-}	t_cone;
+	union
+	{
+		struct s_sphere
+		{
+			float	diameter;
+		} sphere;
+		struct s_cylinder
+		{
+			float	diameter;
+			float	height;
+		} cylinder;
+		struct s_cone
+		{
+			float	base_width;
+			float	height;
+		} cone;
+	};
+}	t_object;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:00:36 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/10 11:38:41 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:39:06 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int	main(int argc, char **argv)
 	ft_memset(&data, 0, sizeof(t_data));
 	if (parse_args(&data, argc, argv))
 		init_mlx(&data);
+	if (data.ambient)
+		free(data.ambient);
 	ft_lstclear(&data.cameras, free);
-	ft_lstclear(&data.elements, free);
+	ft_lstclear(&data.lights, free);
+	ft_lstclear(&data.objects, free);
 }

@@ -6,62 +6,61 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:24:48 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/10 15:44:53 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:15:52 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static bool	parse_elem(char *line, t_element **element)
+static bool	get_specs(char *line, char ***specs, size_t *len)
+{
+	*specs = ft_split(line, " \t\n\v\f\r");
+	*len = 0;
+	while ((*specs)[*len])
+		(*len)++;
+	if (*len == 0)
+	{
+		ft_free_split(*specs);
+		return (false);
+	}
+	return (true);
+}
+
+// TODO: return values of parse_* functions are ignored
+static bool	parse_elem(t_data *data, char *line)
 {
 	char		**specs;
 	size_t		len;
+	t_object	*object;
 	int			result;
 
-	*element = ft_calloc(1, sizeof(t_element));
-	specs = ft_split(line, " \t\n\v\f\r");
-	len = 0;
-	while (specs[len])
-		len++;
-	if (len == 0)
-		result = 1;
-	else
+	if (!get_specs(line, &specs, &len))
+		return (true);
+	result = parse_ambient(data, specs, len)
+		|| parse_camera(data, specs, len)
+		|| parse_light(data, specs, len);
+	if (result == 0)
 	{
-		// TODO: return value of 2 is ignored
-		result = parse_ambient(*element, specs, len)
-			|| parse_camera(*element, specs, len)
-			|| parse_light(*element, specs, len)
-			|| parse_sphere(*element, specs, len)
-			|| parse_plane(*element, specs, len)
-			|| parse_cylinder(*element, specs, len)
-			|| parse_cone(*element, specs, len);
-		if (result == 0)
-			printf("Unknown element with identifier '%s'\n", specs[0]);
-		if (result != 1)
-			free(*element);
+		object = malloc(sizeof(t_object));
+		result = parse_sphere(object, specs, len)
+			|| parse_plane(object, specs, len)
+			|| parse_cylinder(object, specs, len)
+			|| parse_cone(object, specs, len);
+		ft_lstadd_back(&data->objects, ft_lstnew(object));
 	}
+	if (result == 0)
+		printf("Unknown element with identifier '%s'\n", specs[0]);
 	ft_free_split(specs);
 	return (result == 1);
 }
 
 static bool	check_parsing(t_data *data)
 {
-	int		ambient_count;
-	t_list	*lst;
-
-	ambient_count = 0;
-	lst = data->elements;
-	while (lst)
-	{
-		if (((t_element *) lst->content)->type == AMBIENT)
-			ambient_count++;
-		lst = lst->next;
-	}
-	if (ambient_count == 0)
-		printf("At least 1 ambiant light is required!\n");
+	if (!data->ambient)
+		printf("1 ambiant light is required!\n");
 	if (!data->cameras)
 		printf("At least 1 camera is required!\n");
-	return (ambient_count > 0 && data->cameras);
+	return (data->ambient && data->cameras);
 }
 
 static void	free_gnl(int fd, char *line)
@@ -73,27 +72,15 @@ static void	free_gnl(int fd, char *line)
 
 bool	parse_file(t_data *data, int fd)
 {
-	char		*line;
-	t_element	*elem;
+	char	*line;
 
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] != '#')
+		if (line[0] != '#' && !parse_elem(data, line))
 		{
-			if (!parse_elem(line, &elem))
-			{
-				free_gnl(fd, line);
-				return (false);
-			}
-			if (elem->type == CAMERA)
-			{
-				ft_lstadd_back(&data->cameras,
-					ft_lstnew(ft_memdup(&elem->camera, sizeof(t_camera))));
-				free(elem);
-			}
-			else
-				ft_lstadd_back(&data->elements, ft_lstnew(elem));
+			free_gnl(fd, line);
+			return (false);
 		}
 		ft_free_set((void **) &line, get_next_line(fd));
 	}
