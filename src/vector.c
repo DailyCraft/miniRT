@@ -6,26 +6,11 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:24:58 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/12 15:59:49 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:58:18 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-inline t_vec	vec_sub(t_vec *a, t_vec *b)
-{
-	t_vec	vec;
-
-	vec.x = a->x - b->x;
-	vec.y = a->y - b->y;
-	vec.z = a->z - b->z;
-	return (vec);
-}
-
-inline float	vec_dot(t_vec *a, t_vec *b)
-{
-	return (a->x * b->x + a->y * b->y + a->z * b->z);
-}
 
 float	get_magnitude(t_vec *vec)
 {
@@ -48,4 +33,14 @@ float	distance(t_vec *pos1, t_vec *pos2)
 
 	sub = vec_sub(pos2, pos1);
 	return (get_magnitude(&sub));
+}
+
+inline t_vec	ray_at(t_ray *ray, float t)
+{
+	t_vec	vec;
+
+	vec.x = ray->pos.x + t * ray->dir.x;
+	vec.y = ray->pos.y + t * ray->dir.y;
+	vec.z = ray->pos.z + t * ray->dir.z;
+	return (vec);
 }

@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:38:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/12 15:58:34 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/14 11:45:18 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,13 @@ bool	parse_vec(char *spec, t_vec *vec, float limit, bool normalized)
 		return (false);
 	if (normalized && get_magnitude(vec) != 1)
 	{
-		printf("The vector %s is not normilized!\n", spec);
-		return (false);
+		printf("The vector %s is not normilized! Normilizing it...\n", spec);
+		if (vec->x == 0 && vec->y == 0 && vec->z == 0)
+		{
+			printf("The zero vector cannot be normilized!\n");
+			return (false);
+		}
+		normalize(vec);
 	}
 	return (true);
 }

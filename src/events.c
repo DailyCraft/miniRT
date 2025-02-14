@@ -6,19 +6,32 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:17:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/12 16:05:50 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:06:12 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+static void	change_cam(t_data *data)
+{
+	t_list	*first;
+
+	first = data->cameras;
+	data->cameras = first->next;
+	first->next = NULL;
+	ft_lstadd_back(&data->cameras, first);
+}
+
 int	key_hook(int key, t_data *data)
 {
 	if (key == XK_Escape)
-		mlx_loop_end(data->mlx);
-	else if (key == XK_c)
 	{
+		mlx_loop_end(data->mlx);
+		return (0);
 	}
+	else if (key == XK_c)
+		change_cam(data);
+	expose_hook(data);
 	return (0);
 }
 

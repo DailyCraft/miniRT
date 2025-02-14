@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/12 15:55:13 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:18:41 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,15 @@ int		expose_hook(t_data *data);
 int		key_hook(int key, t_data *data);
 
 void	update_image(t_data *data, t_camera *camera);
-bool	intersect(t_object *object, t_vec *pos, t_vec *dir, t_vec *hit);
+bool	intersect(t_object *object, t_ray *ray, t_hit *hit);
 
 t_vec	vec_sub(t_vec *a, t_vec *b);
 float	vec_dot(t_vec *a, t_vec *b);
+t_vec	vec_cross(t_vec *u, t_vec *v);
+t_vec	vec_mul(t_vec *v, float f);
 float	get_magnitude(t_vec *vec);
 void	normalize(t_vec *vec);
 float	distance(t_vec *pos1, t_vec *pos2);
+t_vec	ray_at(t_ray *ray, float t);
 
 #endif

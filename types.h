@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:57:37 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/12 14:38:39 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/14 08:57:40 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,20 @@ typedef struct s_vec
 	float	y;
 	float	z;
 }	t_vec;
+
+typedef struct s_ray
+{
+	t_vec	pos;
+	t_vec	dir;
+}	t_ray;
+
+typedef struct s_hit
+{
+	t_vec	pos;
+	t_vec	normal;
+	float	t;
+	bool	front_face;
+}	t_hit;
 
 typedef struct s_ambient
 {
