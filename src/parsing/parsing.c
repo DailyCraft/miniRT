@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:24:48 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/12 16:15:52 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 08:56:23 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ bool	parse_file(t_data *data, int fd)
 		}
 		ft_free_set((void **) &line, get_next_line(fd));
 	}
-	return (check_parsing(data));
+	return (errno || check_parsing(data));
 }

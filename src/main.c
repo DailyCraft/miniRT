@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:00:36 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/12 12:39:06 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:16:23 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ static bool	parse_args(t_data *data, int argc, char **argv)
 		return (false);
 	}
 	fd = open(argv[1], O_RDONLY);
-	result = fd >= 0 && parse_file(data, fd);
+	if (fd < 0)
+		return (perror(argv[1]), false);
+	result = parse_file(data, fd);
 	close(fd);
+	if (errno)
+		return (perror(argv[1]), false);
 	return (result);
 }
 

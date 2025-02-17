@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/14 15:18:41 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 08:54:33 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <math.h>
 # include <stdbool.h>
+# include <errno.h>
 # include "float.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
