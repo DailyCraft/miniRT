@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:38:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/14 11:45:18 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:31:03 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	parsing_is_type(char *type, char *name, size_t len, size_t required)
 
 // TODO: more secure
 // TODO: message when not in range
-bool	parse_vec(char *spec, t_vec *vec, float limit, bool normalized)
+bool	parse_vec(char *spec, t_vec *vec, double limit, bool normalized)
 {
 	char	*str;
 
@@ -77,9 +77,9 @@ bool	parse_color(char *spec, t_color *color)
 
 // TODO: more secure
 // TODO: message when not in range
-bool	parse_float(char *spec, float *value, float min, float max)
+bool	parse_double(char *spec, double *value, double min, double max)
 {
-	*value = (float) ft_atof(spec);
+	*value = ft_atof(spec);
 	return (*value >= min && *value <= max);
 }
 

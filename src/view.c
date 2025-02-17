@@ -6,15 +6,15 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:19:25 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 10:27:39 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:36:53 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, float max)
+static t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max)
 {
-	float		min_dist;
+	double		min_dist;
 	t_object	*object;
 	t_list		*lst;
 
@@ -40,8 +40,8 @@ static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	t_vec	v;
 	t_vec	l;
 	t_vec	r;
-	float	diffuse;
-	float	specular;
+	double	diffuse;
+	double	specular;
 
 	v = vec_sub(&camera->pos, &hit->pos);
 	normalize(&v);
@@ -50,8 +50,8 @@ static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	r = vec_mul(&hit->normal, 2 * vec_dot(&l, &hit->normal));
 	r = vec_sub(&r, &l);
 	normalize(&r);
-	diffuse = light->brightness * fmaxf(vec_dot(&l, &hit->normal), 0);
-	specular = light->brightness * powf(fmaxf(vec_dot(&r, &v), 0), 100);
+	diffuse = light->brightness * fmax(vec_dot(&l, &hit->normal), 0);
+	specular = light->brightness * pow(fmax(vec_dot(&r, &v), 0), 100);
 	brightness->x += light->color.r / 255 * (diffuse + specular);
 	brightness->y += light->color.g / 255 * (diffuse + specular);
 	brightness->z += light->color.b / 255 * (diffuse + specular);
@@ -81,9 +81,9 @@ static int	get_object_color(t_data *data, t_camera *camera,
 		lst = lst->next;
 	}
 	return (ft_rgb(
-			fminf(object->color.r * brightness.x, 255),
-			fminf(object->color.g * brightness.y, 255),
-			fminf(object->color.b * brightness.z, 255)
+			fmin(object->color.r * brightness.x, 255),
+			fmin(object->color.g * brightness.y, 255),
+			fmin(object->color.b * brightness.z, 255)
 		));
 }
 
@@ -91,19 +91,19 @@ static int	get_object_color(t_data *data, t_camera *camera,
 static int	get_pixel_color(t_data *data, t_camera *camera, int x, int y)
 {
 	t_vec		vec;
-	float		scale;
+	double		scale;
 	t_object	*object;
 	t_ray		ray;
 	t_hit		hit;
 
-	scale = tanf(camera->fov * M_PI / 180 / 2);
+	scale = tan(camera->fov * M_PI / 180 / 2);
 	vec.x = (2 * (x + 0.5) / WIDTH - 1) * scale * (WIDTH / HEIGHT);
 	vec.y = (1 - 2 * (y + 0.5) / HEIGHT) * scale;
 	vec.z = -1;
 	normalize(&vec);
 	ray.pos = camera->pos;
 	ray.dir = vec;
-	object = get_object(data, &ray, &hit, FLT_MAX);
+	object = get_object(data, &ray, &hit, DBL_MAX);
 	if (object)
 		return (get_object_color(data, camera, object, &hit));
 	return (0);

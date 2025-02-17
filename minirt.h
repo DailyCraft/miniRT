@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 08:54:33 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:32:52 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int		parse_plane(t_object *element, char **specs, size_t len);
 int		parse_cylinder(t_object *element, char **specs, size_t len);
 int		parse_cone(t_object *element, char **specs, size_t len);
 bool	parsing_is_type(char *type, char *name, size_t len, size_t required);
-bool	parse_vec(char *spec, t_vec *vec, float limit, bool normalized);
+bool	parse_vec(char *spec, t_vec *vec, double limit, bool normalized);
 bool	parse_color(char *spec, t_color *color);
-bool	parse_float(char *spec, float *value, float min, float max);
+bool	parse_double(char *spec, double *value, double min, double max);
 bool	parse_int(char *spec, int *value, int min, int max);
 
 void	init_mlx(t_data *data);
@@ -62,12 +62,12 @@ void	update_image(t_data *data, t_camera *camera);
 bool	intersect(t_object *object, t_ray *ray, t_hit *hit);
 
 t_vec	vec_sub(t_vec *a, t_vec *b);
-float	vec_dot(t_vec *a, t_vec *b);
+double	vec_dot(t_vec *a, t_vec *b);
 t_vec	vec_cross(t_vec *u, t_vec *v);
-t_vec	vec_mul(t_vec *v, float f);
-float	get_magnitude(t_vec *vec);
+t_vec	vec_mul(t_vec *v, double d);
+double	get_magnitude(t_vec *vec);
 void	normalize(t_vec *vec);
-float	distance(t_vec *pos1, t_vec *pos2);
-t_vec	ray_at(t_ray *ray, float t);
+double	distance(t_vec *pos1, t_vec *pos2);
+t_vec	ray_at(t_ray *ray, double t);
 
 #endif

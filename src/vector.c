@@ -6,20 +6,20 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:24:58 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/14 12:58:18 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:33:59 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-float	get_magnitude(t_vec *vec)
+double	get_magnitude(t_vec *vec)
 {
 	return (sqrtf(vec_dot(vec, vec)));
 }
 
 void	normalize(t_vec *vec)
 {
-	float	magnitude;
+	double	magnitude;
 
 	magnitude = get_magnitude(vec);
 	vec->x /= magnitude;
@@ -27,7 +27,7 @@ void	normalize(t_vec *vec)
 	vec->z /= magnitude;
 }
 
-float	distance(t_vec *pos1, t_vec *pos2)
+double	distance(t_vec *pos1, t_vec *pos2)
 {
 	t_vec	sub;
 
@@ -35,7 +35,7 @@ float	distance(t_vec *pos1, t_vec *pos2)
 	return (get_magnitude(&sub));
 }
 
-inline t_vec	ray_at(t_ray *ray, float t)
+inline t_vec	ray_at(t_ray *ray, double t)
 {
 	t_vec	vec;
 

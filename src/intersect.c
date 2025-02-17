@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:48:12 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 10:22:07 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:31:52 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 static bool	inter_sphere(t_object *object, t_ray *ray, t_hit *hit)
 {
 	t_vec	oc;
-	float	radius;
-	float	a;
-	float	h;
-	float	c;
-	float	discriminant;
-	float	sqrt_disc;
-	float	t1;
-	float	t2;
-	float	t_hit;
+	double	radius;
+	double	a;
+	double	h;
+	double	c;
+	double	discriminant;
+	double	sqrt_disc;
+	double	t1;
+	double	t2;
+	double	t_hit;
 
 	oc = vec_sub(&object->pos, &ray->pos);
 	radius = object->sphere.diameter / 2.0;
@@ -33,7 +33,7 @@ static bool	inter_sphere(t_object *object, t_ray *ray, t_hit *hit)
 	discriminant = h * h - a * c;
 	if (discriminant < 0)
 		return (false);
-	sqrt_disc = sqrtf(discriminant);
+	sqrt_disc = sqrt(discriminant);
 	t1 = (h - sqrt_disc) / a;
 	t2 = (h + sqrt_disc) / a;
 	t_hit = t1 > 0.0001 ? t1 : (t2 > 0.0001 ? t2 : -1);

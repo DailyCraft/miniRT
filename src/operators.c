@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:58:20 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/14 14:59:56 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:33:44 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ inline t_vec	vec_sub(t_vec *u, t_vec *v)
 	return (vec);
 }
 
-inline float	vec_dot(t_vec *u, t_vec *v)
+inline double	vec_dot(t_vec *u, t_vec *v)
 {
 	return (u->x * v->x + u->y * v->y + u->z * v->z);
 }
@@ -37,7 +37,7 @@ inline t_vec	vec_cross(t_vec *u, t_vec *v)
 	return (vec);
 }
 
-inline t_vec	vec_mul(t_vec *v, float f)
+inline t_vec	vec_mul(t_vec *v, double f)
 {
 	t_vec	vec;
 

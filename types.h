@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:57:37 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 08:49:26 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:33:00 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef union u_color
 
 typedef struct s_vec
 {
-	float	x;
-	float	y;
-	float	z;
+	double	x;
+	double	y;
+	double	z;
 }	t_vec;
 
 typedef struct s_ray
@@ -50,20 +50,20 @@ typedef struct s_hit
 {
 	t_vec	pos;
 	t_vec	normal;
-	//float	t;
+	//double	t;
 	//bool	front_face;
 }	t_hit;
 
 typedef struct s_ambient
 {
-	float	brightness;
+	double	brightness;
 	t_color	color;
 }	t_ambient;
 
 typedef struct s_light
 {
 	t_vec	pos;
-	float	brightness;
+	double	brightness;
 	t_color	color;
 }	t_light;
 
@@ -71,7 +71,7 @@ typedef struct s_camera
 {
 	t_vec	pos;
 	t_vec	rot;
-	float	fov;
+	double	fov;
 	t_image	*image;
 }	t_camera;
 
@@ -94,17 +94,17 @@ typedef struct s_object
 	{
 		struct s_sphere
 		{
-			float	diameter;
+			double	diameter;
 		} sphere;
 		struct s_cylinder
 		{
-			float	diameter;
-			float	height;
+			double	diameter;
+			double	height;
 		} cylinder;
 		struct s_cone
 		{
-			float	base_width;
-			float	height;
+			double	base_width;
+			double	height;
 		} cone;
 	};
 }	t_object;
