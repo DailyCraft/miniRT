@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:24:58 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 10:33:59 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 14:09:44 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 double	get_magnitude(t_vec *vec)
 {
-	return (sqrtf(vec_dot(vec, vec)));
+	return (sqrt(vec_dot(vec, vec)));
 }
 
 void	normalize(t_vec *vec)

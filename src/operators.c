@@ -6,11 +6,21 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:58:20 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 10:33:44 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 13:20:32 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+inline t_vec	vec_add(t_vec *u, t_vec *v)
+{
+	t_vec	vec;
+
+	vec.x = u->x + v->x;
+	vec.y = u->y + v->y;
+	vec.z = u->z + v->z;
+	return (vec);
+}
 
 inline t_vec	vec_sub(t_vec *u, t_vec *v)
 {

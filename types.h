@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:57:37 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 10:33:00 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:29:23 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_light
 typedef struct s_camera
 {
 	t_vec	pos;
-	t_vec	rot;
+	t_vec	dir;
 	double	fov;
 	t_image	*image;
 }	t_camera;
@@ -80,6 +80,7 @@ typedef enum e_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	TRIANGLE,
 	CONE
 }	t_type;
 
@@ -89,6 +90,8 @@ typedef struct s_object
 	t_vec	pos;
 	t_vec	rot;
 	t_color	color;
+	char	*bump_path;
+	t_image	*bump;
 
 	union
 	{
@@ -101,6 +104,12 @@ typedef struct s_object
 			double	diameter;
 			double	height;
 		} cylinder;
+		struct s_triangle
+		{
+			t_vec	x;
+			t_vec	y;
+			t_vec	z;
+		}	triangle;
 		struct s_cone
 		{
 			double	base_width;

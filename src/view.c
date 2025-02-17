@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:19:25 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 10:36:53 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:05:57 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max)
 {
+	double		dist;
 	double		min_dist;
 	t_object	*object;
 	t_list		*lst;
@@ -23,17 +24,22 @@ static t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max)
 	lst = data->objects;
 	while (lst)
 	{
-		if (intersect(lst->content, ray, hit)
-			&& distance(&ray->pos, &hit->pos) < min_dist)
+		if (intersect(lst->content, ray, hit))
 		{
-			min_dist = distance(&ray->pos, &hit->pos);
-			object = lst->content;
+			dist = distance(&ray->pos, &hit->pos);
+			if (dist < min_dist)
+			{
+				min_dist = dist;
+				object = lst->content;
+			}
 		}
 		lst = lst->next;
 	}
 	return (object);
 }
 
+// TODO: custom shininess
+// TODO: diffuse lighting cause unexpected behaviour
 static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	t_vec *brightness)
 {
@@ -90,19 +96,17 @@ static int	get_object_color(t_data *data, t_camera *camera,
 // TODO: camera to world
 static int	get_pixel_color(t_data *data, t_camera *camera, int x, int y)
 {
-	t_vec		vec;
 	double		scale;
 	t_object	*object;
 	t_ray		ray;
 	t_hit		hit;
 
-	scale = tan(camera->fov * M_PI / 180 / 2);
-	vec.x = (2 * (x + 0.5) / WIDTH - 1) * scale * (WIDTH / HEIGHT);
-	vec.y = (1 - 2 * (y + 0.5) / HEIGHT) * scale;
-	vec.z = -1;
-	normalize(&vec);
 	ray.pos = camera->pos;
-	ray.dir = vec;
+	scale = tan(camera->fov * M_PI / 180 / 2);
+	ray.dir.x = (2 * (x + 0.5) / WIDTH - 1) * scale * (WIDTH / HEIGHT);
+	ray.dir.y = (1 - 2 * (y + 0.5) / HEIGHT) * scale;
+	ray.dir.z = -1;
+	normalize(&ray.dir);
 	object = get_object(data, &ray, &hit, DBL_MAX);
 	if (object)
 		return (get_object_color(data, camera, object, &hit));
@@ -114,9 +118,8 @@ void	update_image(t_data *data, t_camera *camera)
 	int	x;
 	int	y;
 
-	if (camera->image)
-		return ;
-	camera->image = mlx_create_image(data);
+	if (!camera->image)
+		camera->image = mlx_create_image(data);
 	y = 0;
 	while (y < HEIGHT)
 	{

@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:48:12 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 10:31:52 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:38:59 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ bool	intersect(t_object *object, t_ray *ray, t_hit *hit)
 		(object->type == SPHERE && inter_sphere(object, ray, hit))
 		|| (object->type == PLANE && false)
 		|| (object->type == CYLINDER && false)
+		|| (object->type == TRIANGLE && false)
 		|| (object->type == CONE && false)
 	);
 }

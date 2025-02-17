@@ -6,12 +6,13 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:38:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 10:31:03 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:52:46 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+// TODO: Cameras and lights don't have bump texture
 bool	parsing_is_type(char *type, char *name, size_t len, size_t required)
 {
 	static int	n = 0;
@@ -19,7 +20,7 @@ bool	parsing_is_type(char *type, char *name, size_t len, size_t required)
 	if (ft_strcmp(type, name) != 0)
 		return (false);
 	n++;
-	if (len != required)
+	if (len != required && len != required + 1)
 	{
 		printf("Incorrect element n.%d specs length."
 			" Required: %ld, current: %ld\n",
@@ -83,10 +84,14 @@ bool	parse_double(char *spec, double *value, double min, double max)
 	return (*value >= min && *value <= max);
 }
 
-// TODO: more secure
-// TODO: message when not in range
-bool	parse_int(char *spec, int *value, int min, int max)
+bool	parse_bump(char *spec, char **path)
 {
-	*value = ft_atoi(spec);
-	return (*value >= min && *value <= max);
+	if (access(spec, R_OK) == -1)
+	{
+		perror(spec);
+		errno = 0;
+		return (false);
+	}
+	*path = ft_strdup(spec);
+	return (true);
 }
