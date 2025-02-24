@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:15:14 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 16:06:27 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 10:08:04 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ static void	init_images(t_data *data)
 		}
 		lst = lst->next;
 	}
-}
-
-static void	init_hooks(t_data *data)
-{
-	mlx_hook(data->window, DestroyNotify, KeyReleaseMask,
-		mlx_loop_end, data->mlx);
-	mlx_hook(data->window, KeyPress, KeyPressMask, key_hook, data);
-	mlx_expose_hook(data->window, expose_hook, data);
 }
 
 static void	free_images(t_data *data)
@@ -77,7 +69,11 @@ void	init_mlx(t_data *data)
 	data->mlx = mlx_init();
 	data->window = mlx_new_window(data->mlx, WIDTH, HEIGHT, "miniRT");
 	init_images(data);
-	init_hooks(data);
+	mlx_hook(data->window, DestroyNotify, KeyReleaseMask,
+		mlx_loop_end, data->mlx);
+	mlx_key_hook(data->window, key_hook, data);
+	mlx_mouse_hook(data->window, mouse_hook, data);
+	mlx_expose_hook(data->window, expose_hook, data);
 	mlx_loop(data->mlx);
 	free_images(data);
 	mlx_destroy_window(data->mlx, data->window);

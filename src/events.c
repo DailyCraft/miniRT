@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:17:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 14:08:14 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 10:01:36 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,28 @@ int	key_hook(int key, t_data *data)
 	}
 	else if (key == XK_c)
 		change_cam(data);
+	else if (data->selected && (key == XK_f || key == XK_h))
+		data->selected->pos.x += 10 - 20 * (key == XK_f);
+	else if (data->selected && (key == XK_t || key == XK_g))
+		data->selected->pos.y += 10 - 20 * (key == XK_g);
+	else if (data->selected && (key == XK_r || key == XK_y))
+		data->selected->pos.z += 10 - 20 * (key == XK_r);
 	else
 		move(data, key);
 	expose_hook(data);
+	return (0);
+}
+
+int	mouse_hook(int button, int x, int y, t_data *data)
+{
+	t_ray	ray;
+	t_hit	hit;
+
+	if (button == 1)
+	{
+		ray = gen_ray(data->cameras->content, x, y);
+		data->selected = get_object(data, &ray, &hit, DBL_MAX);
+	}
 	return (0);
 }
 

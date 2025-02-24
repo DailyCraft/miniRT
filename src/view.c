@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   view.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:19:25 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/23 20:11:31 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/24 10:10:19 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max)
+t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max)
 {
 	double		dist;
 	double		min_dist;
 	t_object	*object;
+	t_hit		temp;
 	t_list		*lst;
 
 	min_dist = max;
@@ -24,13 +25,14 @@ static t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max)
 	lst = data->objects;
 	while (lst)
 	{
-		if (intersect(lst->content, ray, hit))
+		if (intersect(lst->content, ray, &temp))
 		{
-			dist = distance(&ray->pos, &hit->pos);
+			dist = distance(&ray->pos, &temp.pos);
 			if (dist < min_dist)
 			{
 				min_dist = dist;
 				object = lst->content;
+				*hit = temp;
 			}
 		}
 		lst = lst->next;
@@ -39,7 +41,6 @@ static t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max)
 }
 
 // TODO: custom shininess
-// TODO: diffuse lighting cause unexpected behaviour
 static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	t_vec *brightness)
 {
@@ -53,8 +54,7 @@ static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	normalize(&v);
 	l = vec_sub(light->pos, hit->pos);
 	normalize(&l);
-	r = vec_mul(&hit->normal, 2 * vec_dot(l, hit->normal));
-	r = vec_sub(r, l);
+	r = vec_sub(vec_mul(&hit->normal, 2 * vec_dot(l, hit->normal)), l);
 	normalize(&r);
 	diffuse = light->brightness * fmax(vec_dot(l, hit->normal), 0);
 	specular = light->brightness * pow(fmax(vec_dot(r, v), 0), 100);
@@ -94,12 +94,10 @@ static int	get_object_color(t_data *data, t_camera *camera,
 }
 
 // TODO: camera to world
-static int	get_pixel_color(t_data *data, t_camera *camera, int x, int y)
+t_ray	gen_ray(t_camera *camera, int x, int y)
 {
-	double		scale;
-	t_object	*object;
-	t_ray		ray;
-	t_hit		hit;
+	t_ray	ray;
+	double	scale;
 
 	ray.pos = camera->pos;
 	scale = tan(camera->fov * M_PI / 180 / 2);
@@ -107,6 +105,16 @@ static int	get_pixel_color(t_data *data, t_camera *camera, int x, int y)
 	ray.dir.y = (1 - 2 * (y + 0.5) / HEIGHT) * scale;
 	ray.dir.z = -1;
 	normalize(&ray.dir);
+	return (ray);
+}
+
+static int	get_pixel_color(t_data *data, t_camera *camera, int x, int y)
+{
+	t_object	*object;
+	t_ray		ray;
+	t_hit		hit;
+
+	ray = gen_ray(camera, x, y);
 	object = get_object(data, &ray, &hit, DBL_MAX);
 	if (object)
 		return (get_object_color(data, camera, object, &hit));

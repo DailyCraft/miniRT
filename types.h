@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:57:37 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/23 20:10:58 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/24 09:07:22 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ typedef struct s_hit
 {
 	t_vec	pos;
 	t_vec	normal;
-	//double	t;
-	//bool	front_face;
 }	t_hit;
 
 typedef struct s_ambient
@@ -84,14 +82,6 @@ typedef enum e_type
 	CONE
 }	t_type;
 
-typedef struct s_texture
-{
-    void    *img;        // L'image chargée
-    int     *data;       // Les données de l'image (pixels)
-    int     width;       // Largeur de l'image
-    int     height;      // Hauteur de l'image
-} t_texture;
-
 typedef struct s_object
 {
 	t_type	type;
@@ -113,9 +103,9 @@ typedef struct s_object
 		} cylinder;
 		struct s_triangle
 		{
-			t_vec	x;
-			t_vec	y;
-			t_vec	z;
+			t_vec	pos1;
+			t_vec	pos2;
+			t_vec	pos3;
 		}	triangle;
 		struct s_cone
 		{

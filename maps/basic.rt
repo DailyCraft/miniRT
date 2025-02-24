@@ -1,4 +1,4 @@
-#id	pos				rot				extra		color
+#id	pos				dir				extra		color
 A									0.2			0,255,0
 
 C	0,0,100			0,0,-1			70

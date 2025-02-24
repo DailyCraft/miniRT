@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/23 20:10:48 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/24 09:44:15 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_data
 	t_ambient	*ambient;
 	t_list		*lights;
 	t_list		*objects;
+	t_object	*selected;
 }	t_data;
 
 bool	parse_file(t_data *data, int fd);
@@ -60,6 +61,10 @@ void	init_mlx(t_data *data);
 t_image	*mlx_create_image(t_data *data);
 int		expose_hook(t_data *data);
 int		key_hook(int key, t_data *data);
+int		mouse_hook(int button, int x, int y, t_data *data);
+
+t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max);
+t_ray	gen_ray(t_camera *camera, int x, int y);
 
 void	update_image(t_data *data, t_camera *camera);
 bool	intersect(t_object *object, t_ray *ray, t_hit *hit);

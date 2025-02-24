@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:48:12 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/23 19:47:24 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/24 09:04:13 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static bool	calculate_hit_point(double *hit, double discriminant,
-	double h, double a)
+static bool	calculate_hit_point(double *hit, double disc, double h, double a)
 {
 	double	t1;
 	double	t2;
 	double	sqrt_disc;
 
-	sqrt_disc = sqrt(discriminant);
+	sqrt_disc = sqrt(disc);
 	t1 = (h - sqrt_disc) / a;
 	t2 = (h + sqrt_disc) / a;
 	if (t1 > 0.0001)
@@ -50,10 +49,6 @@ static bool	inter_sphere(t_object *object, t_ray *ray, t_hit *hit)
 	hit->pos = ray_at(ray, t_hit);
 	hit->normal = vec_sub(hit->pos, object->pos);
 	normalize(&hit->normal);
-	//hit->t = t_hit; ??
-	// hit->front_face = vec_dot(&ray->dir, &hit->normal) < 0;
-	// if (!hit->front_face)
-	// 	hit->normal = vec_mul(&hit->normal, -1);
 	return (true);
 }
 
@@ -107,14 +102,14 @@ static bool	inter_cylinder(t_object *object, t_ray *ray, t_hit *hit)
 	dir_perp = vec_sub(ray->dir, vec_scale(&axis, vec_dot(ray->dir, axis)));
 	oc_perp = vec_sub(oc, vec_scale(&axis, vec_dot(oc, axis)));
 	a = vec_dot(dir_perp, dir_perp);
-	b = 2 * vec_dot(dir_perp, oc_perp);
+	b = vec_dot(dir_perp, oc_perp);
 	c = vec_dot(oc_perp, oc_perp) - radius * radius;
-	discriminant = b * b - 4 * a * c;
+	discriminant = b * b - a * c;
 	if (discriminant < 0)
 		return (false);
 	sqrt_disc = sqrt(discriminant);
-	t1 = (-b - sqrt_disc) / (2 * a);
-	t2 = (-b + sqrt_disc) / (2 * a);
+	t1 = (-b - sqrt_disc) / (a);
+	t2 = (-b + sqrt_disc) / (a);
 	t_hit = (t1 > 0.0001) ? t1 : (t2 > 0.0001 ? t2 : -1);
 	if (t_hit < 0)
 		return (false);
@@ -127,8 +122,6 @@ static bool	inter_cylinder(t_object *object, t_ray *ray, t_hit *hit)
 	normalize(&hit->normal);
 	return (true);
 }
-
-
 
 bool	intersect(t_object *object, t_ray *ray, t_hit *hit)
 {

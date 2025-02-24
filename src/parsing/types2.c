@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 10:29:44 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 15:46:43 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 08:48:49 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ bool	parse_triangle(t_object *object, char **specs, size_t len, bool *status)
 	if (!parsing_is_type(specs[0], "tr", len, 5))
 		return (false);
 	object->type = TRIANGLE;
-	*status = parse_vec(specs[1], &object->triangle.x, DBL_MAX, false)
-		&& parse_vec(specs[2], &object->triangle.y, DBL_MAX, false)
-		&& parse_vec(specs[3], &object->triangle.z, DBL_MAX, false)
+	*status = parse_vec(specs[1], &object->triangle.pos1, DBL_MAX, false)
+		&& parse_vec(specs[2], &object->triangle.pos2, DBL_MAX, false)
+		&& parse_vec(specs[3], &object->triangle.pos3, DBL_MAX, false)
 		&& parse_color(specs[4], &object->color);
 	return (true);
 }
