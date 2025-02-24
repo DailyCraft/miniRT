@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 16:05:27 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:10:48 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	update_image(t_data *data, t_camera *camera);
 bool	intersect(t_object *object, t_ray *ray, t_hit *hit);
 
 t_vec	vec_add(t_vec *u, t_vec *v);
-t_vec	vec_sub(t_vec *a, t_vec *b);
-double	vec_dot(t_vec *a, t_vec *b);
+t_vec	vec_sub(t_vec a, t_vec b);
+double	vec_dot(t_vec a, t_vec b);
 t_vec	vec_cross(t_vec *u, t_vec *v);
 t_vec	vec_mul(t_vec *v, double d);
 double	get_magnitude(t_vec *vec);

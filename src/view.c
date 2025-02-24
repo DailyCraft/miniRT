@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   view.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:19:25 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 16:05:57 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:11:31 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	double	diffuse;
 	double	specular;
 
-	v = vec_sub(&camera->pos, &hit->pos);
+	v = vec_sub(camera->pos, hit->pos);
 	normalize(&v);
-	l = vec_sub(&light->pos, &hit->pos);
+	l = vec_sub(light->pos, hit->pos);
 	normalize(&l);
-	r = vec_mul(&hit->normal, 2 * vec_dot(&l, &hit->normal));
-	r = vec_sub(&r, &l);
+	r = vec_mul(&hit->normal, 2 * vec_dot(l, hit->normal));
+	r = vec_sub(r, l);
 	normalize(&r);
-	diffuse = light->brightness * fmax(vec_dot(&l, &hit->normal), 0);
-	specular = light->brightness * pow(fmax(vec_dot(&r, &v), 0), 100);
+	diffuse = light->brightness * fmax(vec_dot(l, hit->normal), 0);
+	specular = light->brightness * pow(fmax(vec_dot(r, v), 0), 100);
 	brightness->x += light->color.r / 255 * (diffuse + specular);
 	brightness->y += light->color.g / 255 * (diffuse + specular);
 	brightness->z += light->color.b / 255 * (diffuse + specular);
@@ -80,7 +80,7 @@ static int	get_object_color(t_data *data, t_camera *camera,
 	{
 		light = lst->content;
 		ray.pos = hit->pos;
-		ray.dir = vec_sub(&light->pos, &hit->pos);
+		ray.dir = vec_sub(light->pos, hit->pos);
 		normalize(&ray.dir);
 		if (!get_object(data, &ray, &temp, distance(&hit->pos, &light->pos)))
 			sum_light(camera, hit, light, &brightness);

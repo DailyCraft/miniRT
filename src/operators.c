@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operators.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:58:20 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 13:20:32 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:13:29 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ inline t_vec	vec_add(t_vec *u, t_vec *v)
 	return (vec);
 }
 
-inline t_vec	vec_sub(t_vec *u, t_vec *v)
+inline t_vec	vec_sub(t_vec u, t_vec v)
 {
 	t_vec	vec;
 
-	vec.x = u->x - v->x;
-	vec.y = u->y - v->y;
-	vec.z = u->z - v->z;
+	vec.x = u.x - v.x;
+	vec.y = u.y - v.y;
+	vec.z = u.z - v.z;
 	return (vec);
 }
 
-inline double	vec_dot(t_vec *u, t_vec *v)
+inline double	vec_dot(t_vec u, t_vec v)
 {
-	return (u->x * v->x + u->y * v->y + u->z * v->z);
+	return (u.x * v.x + u.y * v.y + u.z * v.z);
 }
 
 inline t_vec	vec_cross(t_vec *u, t_vec *v)

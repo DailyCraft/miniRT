@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:24:58 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 14:09:44 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:23:13 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 double	get_magnitude(t_vec *vec)
 {
-	return (sqrt(vec_dot(vec, vec)));
+	return (sqrt(vec_dot(*vec, *vec)));
 }
 
 void	normalize(t_vec *vec)
@@ -31,7 +31,7 @@ double	distance(t_vec *pos1, t_vec *pos2)
 {
 	t_vec	sub;
 
-	sub = vec_sub(pos2, pos1);
+	sub = vec_sub(*pos2, *pos1);
 	return (get_magnitude(&sub));
 }
 

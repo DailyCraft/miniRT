@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:57:37 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 15:29:23 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:10:58 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,22 @@ typedef enum e_type
 	CONE
 }	t_type;
 
+typedef struct s_texture
+{
+    void    *img;        // L'image chargée
+    int     *data;       // Les données de l'image (pixels)
+    int     width;       // Largeur de l'image
+    int     height;      // Hauteur de l'image
+} t_texture;
+
 typedef struct s_object
 {
 	t_type	type;
 	t_vec	pos;
 	t_vec	rot;
 	t_color	color;
-	char	*bump_path;
+	char	*bump_path;	
 	t_image	*bump;
-
 	union
 	{
 		struct s_sphere
