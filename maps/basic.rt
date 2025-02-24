@@ -1,13 +1,18 @@
-#id	pos				dir				extra		color
-A									0.2			0,255,0
+#A	{brightness}	{color}
+A	0.2				0,255,0
 
-C	0,0,100			0,0,-1			70
-C	0,0,50			0,0,-1			70
-L	0,50,-10						1			0,0,255
-L	0,-50,10						0.5			255,0,0
+#L	{pos}			{brightness}	{color}
+L	0,50,-10		1				0,0,255
+L	0,-50,10		0.5				255,0,0
 
-#pl	0,0,0			0,1.0,0						255,0,225
-sp	0,0,0							20			255,255,255
-sp	30,0,0							20			255,0,0
-sp	-30,0,0							20			255,0,0
-#cy	50.0,0.0,20.6	0,0,1.0			14.2 21.42	10,0,255
+#C	{pos}			{dir}		{fov}
+C	0,0,100			0,0,-1		70
+C	0,0,50			0,0,-1		70
+
+#{id}	{pos}			[dir]		{extra}		{color/texture}		--bump={texture} 		--checkerboard={color/texture}	--shininess={0..=500}
+#{id}	{pos}			[dir]		{extra}		{color/texture}		-b={texture}			-c={color/texture}				-s={0..=500}
+pl		0,0,0			0,1.0,0					255,0,225
+sp		0,0,0						20			255,255,255
+sp		30,0,0						20			255,0,0
+sp		-30,0,0						20			maps/texture.xpm
+cy		50.0,0.0,20.6	0,1,0.0		14.2 21.42	maps/texture.xpm	--bump=maps/bump.xpm	--checkerboard=255,255,255		--shininess=100

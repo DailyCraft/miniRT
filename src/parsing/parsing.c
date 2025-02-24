@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:24:48 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 15:57:48 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:08:27 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ static bool	get_specs(char *line, char ***specs, size_t *len)
 
 static bool	parse_object(t_data *data, char **specs, size_t len, bool *status)
 {
-	t_object	*object;
-	bool		result;
+	t_obj	*object;
+	bool	result;
 
-	object = malloc(sizeof(t_object));
+	object = malloc(sizeof(t_obj));
 	object->bump_path = NULL;
 	object->bump = NULL;
 	result = parse_sphere(object, specs, len, status)
@@ -45,10 +45,10 @@ static bool	parse_object(t_data *data, char **specs, size_t len, bool *status)
 
 static bool	parse_elem(t_data *data, char *line)
 {
-	char		**specs;
-	size_t		len;
-	bool		result;
-	bool		status;
+	char	**specs;
+	size_t	len;
+	bool	result;
+	bool	status;
 
 	if (!get_specs(line, &specs, &len))
 		return (true);
@@ -60,7 +60,7 @@ static bool	parse_elem(t_data *data, char *line)
 	if (!result)
 		printf("Unknown element with identifier '%s'\n", specs[0]);
 	ft_free_split(specs);
-	return (status);
+	return (result && status);
 }
 
 static void	free_gnl(int fd, char *line)

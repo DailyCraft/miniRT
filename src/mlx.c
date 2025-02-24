@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:15:14 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 10:08:04 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:07:32 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 static void	init_images(t_data *data)
 {
 	t_list		*lst;
-	t_object	*object;
-	int			useless;
+	t_obj	*object;
 
 	lst = data->objects;
 	while (lst)
@@ -26,11 +25,12 @@ static void	init_images(t_data *data)
 		{
 			object->bump = malloc(sizeof(t_image));
 			object->bump->ptr = mlx_xpm_file_to_image(data->mlx,
-					object->bump_path, &useless, &useless);
+					object->bump_path, &object->bump->width,
+					&object->bump->height);
 			object->bump->data = (int *) mlx_get_data_addr(object->bump->ptr,
 					&object->bump->bits_per_pixel, &object->bump->size_line,
 					&object->bump->endian);
-			free(object->bump_path);
+			ft_free_set((void **) &object->bump_path, NULL);
 		}
 		lst = lst->next;
 	}
@@ -54,11 +54,11 @@ static void	free_images(t_data *data)
 	lst = data->objects;
 	while (lst)
 	{
-		if (((t_object *) lst->content)->bump)
+		if (((t_obj *) lst->content)->bump)
 		{
 			mlx_destroy_image(data->mlx,
-				((t_object *) lst->content)->bump->ptr);
-			free(((t_object *) lst->content)->bump);
+				((t_obj *) lst->content)->bump->ptr);
+			free(((t_obj *) lst->content)->bump);
 		}
 		lst = lst->next;
 	}
@@ -66,6 +66,7 @@ static void	free_images(t_data *data)
 
 void	init_mlx(t_data *data)
 {
+	printf("Starting minilibx...\n");
 	data->mlx = mlx_init();
 	data->window = mlx_new_window(data->mlx, WIDTH, HEIGHT, "miniRT");
 	init_images(data);
@@ -89,5 +90,7 @@ t_image	*mlx_create_image(t_data *data)
 	image->ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	image->data = (int *) mlx_get_data_addr(image->ptr,
 			&image->bits_per_pixel, &image->size_line, &image->endian);
+	image->width = WIDTH;
+	image->height = HEIGHT;
 	return (image);
 }

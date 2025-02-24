@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:17:33 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 15:45:20 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:07:32 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	parse_light(t_data *data, char **specs, size_t len, bool *status)
 	return (true);
 }
 
-bool	parse_sphere(t_object *object, char **specs, size_t len, bool *status)
+bool	parse_sphere(t_obj *object, char **specs, size_t len, bool *status)
 {
 	if (!parsing_is_type(specs[0], "sp", len, 4))
 		return (false);
@@ -69,13 +69,15 @@ bool	parse_sphere(t_object *object, char **specs, size_t len, bool *status)
 	return (true);
 }
 
-bool	parse_plane(t_object *object, char **specs, size_t len, bool *status)
+bool	parse_plane(t_obj *object, char **specs, size_t len, bool *status)
 {
 	if (!parsing_is_type(specs[0], "pl", len, 4))
 		return (false);
 	object->type = PLANE;
 	*status = parse_vec(specs[1], &object->pos, DBL_MAX, false)
-		&& parse_vec(specs[2], &object->rot, 1, true)
+		&& parse_vec(specs[2], &object->dir, 1, true)
 		&& parse_color(specs[3], &object->color);
+	if (len == 5)
+		*status = *status && parse_bump(specs[4], &object->bump_path);
 	return (true);
 }

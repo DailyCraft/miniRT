@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:57:37 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 09:07:22 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:17:38 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ typedef struct s_image
 	int		bits_per_pixel;
 	int		size_line;
 	int		endian;
+	int		width;
+	int		height;
 }	t_image;
 
 typedef union u_color
@@ -30,8 +32,23 @@ typedef union u_color
 		unsigned char	b;
 		unsigned char	g;
 		unsigned char	r;
+		unsigned char	a;
 	};
 }	t_color;
+
+typedef struct s_texture
+{
+	bool	is_color;
+	union
+	{
+		t_color	color;
+		struct
+		{
+			char	*image_path;
+			t_image	*image;
+		};
+	};
+}	t_texture;
 
 typedef struct s_vec
 {
@@ -50,6 +67,8 @@ typedef struct s_hit
 {
 	t_vec	pos;
 	t_vec	normal;
+	double	u;
+	double	v;
 }	t_hit;
 
 typedef struct s_ambient
@@ -84,12 +103,15 @@ typedef enum e_type
 
 typedef struct s_object
 {
-	t_type	type;
-	t_vec	pos;
-	t_vec	rot;
-	t_color	color;
-	char	*bump_path;	
-	t_image	*bump;
+	t_type		type;
+	t_vec		pos;
+	t_vec		dir;
+	t_texture	texture;
+	bool		has_bump;
+	t_texture	bump;
+	bool		has_checkerboard;
+	t_texture	checkerboard;
+	double		shininess;
 	union
 	{
 		struct s_sphere
@@ -113,6 +135,6 @@ typedef struct s_object
 			double	height;
 		} cone;
 	};
-}	t_object;
+}	t_obj;
 
 #endif

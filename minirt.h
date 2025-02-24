@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 09:44:15 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:25:34 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ typedef struct s_data
 	t_ambient	*ambient;
 	t_list		*lights;
 	t_list		*objects;
-	t_object	*selected;
+	t_obj		*selected;
 }	t_data;
 
 bool	parse_file(t_data *data, int fd);
 bool	parse_ambient(t_data *data, char **specs, size_t len, bool *status);
 bool	parse_camera(t_data *data, char **specs, size_t len, bool *status);
 bool	parse_light(t_data *data, char **specs, size_t len, bool *status);
-bool	parse_sphere(t_object *object, char **specs, size_t len, bool *status);
-bool	parse_plane(t_object *object, char **specs, size_t len, bool *status);
-bool	parse_cylinder(t_object *object, char **specs, size_t len,
+bool	parse_sphere(t_obj *object, char **specs, size_t len, bool *status);
+bool	parse_plane(t_obj *object, char **specs, size_t len, bool *status);
+bool	parse_cylinder(t_obj *object, char **specs, size_t len,
 			bool *status);
-bool	parse_triangle(t_object *object, char **specs, size_t len,
+bool	parse_triangle(t_obj *object, char **specs, size_t len,
 			bool *status);
-bool	parse_cone(t_object *object, char **specs, size_t len, bool *status);
+bool	parse_cone(t_obj *object, char **specs, size_t len, bool *status);
 bool	parsing_is_type(char *type, char *name, size_t len, size_t required);
 bool	parse_vec(char *spec, t_vec *vec, double limit, bool normalized);
 bool	parse_color(char *spec, t_color *color);
@@ -63,11 +63,12 @@ int		expose_hook(t_data *data);
 int		key_hook(int key, t_data *data);
 int		mouse_hook(int button, int x, int y, t_data *data);
 
-t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max);
+t_obj	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max);
 t_ray	gen_ray(t_camera *camera, int x, int y);
+int		get_pixel_color(t_data *data, t_obj *object, t_hit *hit);
 
 void	update_image(t_data *data, t_camera *camera);
-bool	intersect(t_object *object, t_ray *ray, t_hit *hit);
+bool	intersect(t_obj *object, t_ray *ray, t_hit *hit);
 
 t_vec	vec_add(t_vec *u, t_vec *v);
 t_vec	vec_sub(t_vec a, t_vec b);

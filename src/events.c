@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:17:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 10:01:36 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 10:48:06 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	expose_hook(t_data *data)
 {
 	t_camera	*camera;
 
+	printf("Loading camera...\n");
 	mlx_string_put(data->mlx, data->window,
 		WIDTH / 2, HEIGHT / 2, 0xffffff, "Loading...");
 	camera = data->cameras->content;

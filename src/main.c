@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:00:36 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 10:16:23 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:07:32 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,25 @@ static bool	parse_args(t_data *data, int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (perror(argv[1]), false);
+	printf("Parsing file...\n");
 	result = parse_file(data, fd);
 	close(fd);
 	if (errno)
 		return (perror(argv[1]), false);
 	return (result);
+}
+
+static void free_images(t_data *data)
+{
+	t_list	*lst;
+
+	lst = data->objects;
+	while (lst)
+	{
+		if (((t_obj *) lst->content)->bump_path)
+			free(((t_obj *) lst->content)->bump_path);
+		lst = lst->next;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -42,6 +56,7 @@ int	main(int argc, char **argv)
 		init_mlx(&data);
 	if (data.ambient)
 		free(data.ambient);
+	free_images(&data);
 	ft_lstclear(&data.cameras, free);
 	ft_lstclear(&data.lights, free);
 	ft_lstclear(&data.objects, free);

@@ -6,39 +6,11 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:19:25 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 10:10:19 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:23:33 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-t_object	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max)
-{
-	double		dist;
-	double		min_dist;
-	t_object	*object;
-	t_hit		temp;
-	t_list		*lst;
-
-	min_dist = max;
-	object = NULL;
-	lst = data->objects;
-	while (lst)
-	{
-		if (intersect(lst->content, ray, &temp))
-		{
-			dist = distance(&ray->pos, &temp.pos);
-			if (dist < min_dist)
-			{
-				min_dist = dist;
-				object = lst->content;
-				*hit = temp;
-			}
-		}
-		lst = lst->next;
-	}
-	return (object);
-}
 
 // TODO: custom shininess
 static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
@@ -63,14 +35,15 @@ static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	brightness->z += light->color.b / 255 * (diffuse + specular);
 }
 
-static int	get_object_color(t_data *data, t_camera *camera,
-	t_object *object, t_hit *hit)
+static int	get_phong_color(t_data *data, t_camera *camera,
+	t_obj *object, t_hit *hit)
 {
 	t_vec	brightness;
 	t_list	*lst;
 	t_light	*light;
 	t_ray	ray;
 	t_hit	temp;
+	int		object_color;
 
 	brightness.x = data->ambient->color.r / 255 * data->ambient->brightness;
 	brightness.y = data->ambient->color.g / 255 * data->ambient->brightness;
@@ -86,38 +59,24 @@ static int	get_object_color(t_data *data, t_camera *camera,
 			sum_light(camera, hit, light, &brightness);
 		lst = lst->next;
 	}
+	object_color = get_pixel_color(data, object, hit);
 	return (ft_rgb(
-			fmin(object->color.r * brightness.x, 255),
-			fmin(object->color.g * brightness.y, 255),
-			fmin(object->color.b * brightness.z, 255)
+			fmin((object_color >> 0 & 0xff) * brightness.x, 255),
+			fmin((object_color >> 8 & 0xff) * brightness.y, 255),
+			fmin((object_color >> 16 & 0xff) * brightness.z, 255)
 		));
 }
 
-// TODO: camera to world
-t_ray	gen_ray(t_camera *camera, int x, int y)
+static int	get_ray_color(t_data *data, t_camera *camera, int x, int y)
 {
+	t_obj	*object;
 	t_ray	ray;
-	double	scale;
-
-	ray.pos = camera->pos;
-	scale = tan(camera->fov * M_PI / 180 / 2);
-	ray.dir.x = (2 * (x + 0.5) / WIDTH - 1) * scale * (WIDTH / HEIGHT);
-	ray.dir.y = (1 - 2 * (y + 0.5) / HEIGHT) * scale;
-	ray.dir.z = -1;
-	normalize(&ray.dir);
-	return (ray);
-}
-
-static int	get_pixel_color(t_data *data, t_camera *camera, int x, int y)
-{
-	t_object	*object;
-	t_ray		ray;
-	t_hit		hit;
+	t_hit	hit;
 
 	ray = gen_ray(camera, x, y);
 	object = get_object(data, &ray, &hit, DBL_MAX);
 	if (object)
-		return (get_object_color(data, camera, object, &hit));
+		return (get_phong_color(data, camera, object, &hit));
 	return (0);
 }
 
@@ -135,9 +94,12 @@ void	update_image(t_data *data, t_camera *camera)
 		while (x < WIDTH)
 		{
 			camera->image->data[y * WIDTH + x]
-				= get_pixel_color(data, camera, x, y);
+				= get_ray_color(data, camera, x, y);
 			x++;
 		}
+		if (y % (HEIGHT / 20) == 0)
+			printf("%3.f %%\n", (float) y / HEIGHT * 100);
 		y++;
 	}
+	printf("%3.f %%\n", (float) y / HEIGHT * 100);
 }
