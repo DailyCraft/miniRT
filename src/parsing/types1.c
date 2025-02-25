@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:17:33 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 16:07:32 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:27:33 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ bool	parse_sphere(t_obj *object, char **specs, size_t len, bool *status)
 	object->type = SPHERE;
 	*status = parse_vec(specs[1], &object->pos, DBL_MAX, false)
 		&& parse_double(specs[2], &object->sphere.diameter, 0, DBL_MAX)
-		&& parse_color(specs[3], &object->color);
+		&& parse_texture(specs[3], object);
 	if (len == 5)
-		*status = *status && parse_bump(specs[4], &object->bump_path);
+		*status = *status && parse_bump(specs[4], &object->bump.image_path);
+	object->has_bump = false;
 	return (true);
 }
 
@@ -76,8 +77,9 @@ bool	parse_plane(t_obj *object, char **specs, size_t len, bool *status)
 	object->type = PLANE;
 	*status = parse_vec(specs[1], &object->pos, DBL_MAX, false)
 		&& parse_vec(specs[2], &object->dir, 1, true)
-		&& parse_color(specs[3], &object->color);
+		&& parse_texture(specs[3], object);
 	if (len == 5)
-		*status = *status && parse_bump(specs[4], &object->bump_path);
+		*status = *status && parse_bump(specs[4], &object->bump.image_path);
+	object->has_bump = false;
 	return (true);
 }

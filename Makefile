@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+         #
+#    By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/22 08:59:59 by dvan-hum          #+#    #+#              #
-#    Updated: 2025/02/24 16:26:11 by dvan-hum         ###   ########.fr        #
+#    Updated: 2025/02/25 16:06:25 by cgrasser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 
-CC = gcc -Wall -Wextra -Werror -O3
+CC = gcc -Wall -Wextra -Werror -g
 
 SRC = events.c intersect.c main.c mlx.c operators.c rt.c uv.c vector.c view.c \
 	parsing/parsing.c parsing/types1.c parsing/types2.c parsing/utils.c

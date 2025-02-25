@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:38:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/17 15:52:46 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:43:57 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,22 @@ bool	parse_vec(char *spec, t_vec *vec, double limit, bool normalized)
 	return (true);
 }
 
-// TODO: more secure
+// TODO: more secure / check if texture existe ?
+bool	parse_texture(char *spec, t_obj *object)
+{
+	if (ft_strncmp(spec, "tx:", 3) == 0)
+	{
+		object->texture.is_color = false;
+		object->texture.image_path = ft_strdup(spec + 3);
+	}
+	else
+	{
+		object->texture.is_color = true;
+		return (parse_color(spec, &object->texture.color));
+	}
+	return (true);
+}
+
 bool	parse_color(char *spec, t_color *color)
 {
 	color->r = ft_atoi(spec);

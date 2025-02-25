@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:00:36 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 16:07:32 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:46:17 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,20 @@ static bool	parse_args(t_data *data, int argc, char **argv)
 	return (result);
 }
 
-static void free_images(t_data *data)
-{
-	t_list	*lst;
+// static void free_images(t_data *data)
+// {
+// 	t_list	*lst;
 
-	lst = data->objects;
-	while (lst)
-	{
-		if (((t_obj *) lst->content)->bump_path)
-			free(((t_obj *) lst->content)->bump_path);
-		lst = lst->next;
-	}
-}
+// 	lst = data->objects;
+// 	while (lst)
+// 	{
+// 		if (((t_obj *) lst->content)->bump_path)
+// 			free(((t_obj *) lst->content)->bump_path);
+// 		lst = lst->next;
+// 	}
+// }
 
+//TODO Fix free images
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -56,7 +57,7 @@ int	main(int argc, char **argv)
 		init_mlx(&data);
 	if (data.ambient)
 		free(data.ambient);
-	free_images(&data);
+	//free_images(&data);
 	ft_lstclear(&data.cameras, free);
 	ft_lstclear(&data.lights, free);
 	ft_lstclear(&data.objects, free);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:24:48 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 16:08:27 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:46:28 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static bool	parse_object(t_data *data, char **specs, size_t len, bool *status)
 	bool	result;
 
 	object = malloc(sizeof(t_obj));
-	object->bump_path = NULL;
-	object->bump = NULL;
 	result = parse_sphere(object, specs, len, status)
 		|| parse_plane(object, specs, len, status)
 		|| parse_cylinder(object, specs, len, status)

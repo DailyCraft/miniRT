@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 16:25:34 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:56:11 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ bool	parse_triangle(t_obj *object, char **specs, size_t len,
 bool	parse_cone(t_obj *object, char **specs, size_t len, bool *status);
 bool	parsing_is_type(char *type, char *name, size_t len, size_t required);
 bool	parse_vec(char *spec, t_vec *vec, double limit, bool normalized);
+bool	parse_texture(char *spec, t_obj *object);
 bool	parse_color(char *spec, t_color *color);
 bool	parse_double(char *spec, double *value, double min, double max);
 bool	parse_bump(char *spec, char **path);

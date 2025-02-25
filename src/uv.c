@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   uv.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:10:15 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 16:25:27 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:43:37 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static void	compute_uv(t_data *data, t_obj *object, t_hit *hit)
 		cylinder_uv(data, object, hit);
 }
 
-static int	get_texture_color(t_data *data, t_obj *object, t_image *texture, t_hit *hit)
+static int	get_texture_color(t_data *data, t_obj *object,
+	t_image *texture, t_hit *hit)
 {
 	int	x;
 	int	y;
@@ -73,15 +74,15 @@ static int	get_texture_color(t_data *data, t_obj *object, t_image *texture, t_hi
 
 int	get_pixel_color(t_data *data, t_obj *object, t_hit *hit)
 {
-	int	index;
-
-	if (object->has_checkerboard && fmod(floor(hit->u * 50) + floor(hit->v * 50), 2) == 0)
+	if (object->has_checkerboard
+		&& fmod(floor(hit->u * 50) + floor(hit->v * 50), 2) == 0)
 	{
 		if (object->checkerboard.is_color)
 			return (object->checkerboard.color.color);
-		return (get_texture_color(data, object, object->checkerboard.image, hit));
+		return (get_texture_color(data, object,
+				object->checkerboard.image, hit));
 	}
 	if (object->texture.is_color)
-			return (object->texture.color.color);
-		return (get_texture_color(data, object, object->texture.image, hit));
+		return (object->texture.color.color);
+	return (get_texture_color(data, object, object->texture.image, hit));
 }
