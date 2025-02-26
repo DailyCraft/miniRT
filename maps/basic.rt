@@ -9,7 +9,7 @@ L	0,-50,10		0.5				255,0,0
 C	0,0,100			0,0,-1		70
 C	0,0,50			0,0,-1		70
 
-#{id}	{pos}			[dir]		{extra}		{color/texture}		--bump={texture} 		--checkerboard={color/texture}	--shininess={0..=500}
+#{id}	{pos}			[dir]		{extra}		{color/texture}		--bump={texture}		--checkerboard={color/texture}	--shininess={0..=500}
 #{id}	{pos}			[dir]		{extra}		{color/texture}		-b={texture}			-c={color/texture}				-s={0..=500}
 pl		0,0,0			0,1.0,0					255,0,225
 sp		0,0,0						20			255,255,255

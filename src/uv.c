@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:10:15 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 09:52:03 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:00:12 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	get_texture_color(t_data *data, t_obj *object,
 
 void	get_pixel_color(t_data *data, t_obj *object, t_hit *hit, t_color *color)
 {
+	compute_uv(data, object, hit);
 	if (object->has_checkerboard
 		&& fmod(floor(hit->u * 50) + floor(hit->v * 50), 2) == 0)
 	{

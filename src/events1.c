@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   events.c                                           :+:      :+:    :+:   */
+/*   events1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:17:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 10:48:06 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:56:30 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ int	key_hook(int key, t_data *data)
 		data->selected->pos.y += 10 - 20 * (key == XK_g);
 	else if (data->selected && (key == XK_r || key == XK_y))
 		data->selected->pos.z += 10 - 20 * (key == XK_r);
+	else if (data->selected && (key == XK_Delete))
+	{
+		free_textures(data, data->selected);
+		ft_lstdeli(&data->objects,
+			ft_lstindex(data->objects, data->selected, NULL), free);
+		data->selected = NULL;
+	}
 	else
 		move(data, key);
 	expose_hook(data);

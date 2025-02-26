@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:24:48 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 10:01:24 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:29:47 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static bool	parse_object(t_data *data, char **specs, size_t len)
 	return (result);
 }
 
-static bool	parse_elem(t_data *data, char *line)
+bool	parse_elem(t_data *data, char *line, bool print)
 {
 	char	**specs;
 	size_t	len;
@@ -59,7 +59,12 @@ static bool	parse_elem(t_data *data, char *line)
 
 	if (!get_specs(line, &specs, &len))
 		return (true);
-	printf("%s", line);
+	if (print)
+	{
+		printf("%s", line);
+		if (line[ft_strlen(line) - 1] != '\n')
+			printf("\n");
+	}
 	if (!(parse_ambient(data, specs, len, &result)
 			|| parse_camera(data, specs, len, &result)
 			|| parse_light(data, specs, len, &result)))
@@ -82,14 +87,13 @@ bool	parse_file(t_data *data, int fd)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] != '#' && !parse_elem(data, line))
+		if (line[0] != '#' && !parse_elem(data, line, true))
 		{
 			free_gnl(fd, line);
 			return (false);
 		}
 		ft_free_set((void **) &line, get_next_line(fd));
 	}
-	printf("\n");
 	if (errno)
 		return (true);
 	if (!data->ambient)

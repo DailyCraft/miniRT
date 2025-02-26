@@ -6,15 +6,15 @@
 #    By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/22 08:59:59 by dvan-hum          #+#    #+#              #
-#    Updated: 2025/02/26 10:05:44 by dvan-hum         ###   ########.fr        #
+#    Updated: 2025/02/26 10:50:44 by dvan-hum         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 
-CC = gcc -Wall -Wextra -Werror -g
+CC = gcc -Wall -Wextra -Werror -O3
 
-SRC = events.c intersect.c main.c mlx_utils.c mlx.c operators.c rt.c uv.c vector.c view.c \
+SRC = events1.c events2.c intersect.c main.c mlx_utils.c mlx.c operators.c rt.c uv.c vector.c view.c \
 	objs/cylinder.c objs/plane.c objs/sphere.c \
 	parsing/options.c parsing/parsing.c parsing/specs.c parsing/types.c parsing/utils.c
 OBJ = $(SRC:%.c=obj/%.o)
@@ -37,7 +37,7 @@ $(NAME): $(LIBS) $(OBJ)
 obj/%.o: src/%.c $(INCLUDES)
 	echo "$(NAME) \e[90m➤\e[0m \e[32mCompiling\e[0m \e[36m$<\e[0m"
 	mkdir -p $(dir $@)
-	$(CC) -c $< -o $@ -I ./ -I ./libft -I ./minilibx
+	$(CC) -c $< -o $@ -I ./ -I ./libft -I ./minilibx -D CHEAT
 
 clean:
 	make -C minilibx clean

@@ -6,13 +6,13 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 09:53:05 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 09:53:49 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:00:58 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	init_textures(t_data *data, bool contains, t_texture *texture)
+static void	init_texture(t_data *data, bool contains, t_texture *texture)
 {
 	if (!contains || !texture->image_path)
 		return ;
@@ -25,23 +25,26 @@ static void	init_textures(t_data *data, bool contains, t_texture *texture)
 	ft_free_set((void **) &texture->image_path, NULL);
 }
 
+void	init_textures(t_data *data, t_obj *obj)
+{
+	init_texture(data, true, &obj->texture);
+	init_texture(data, obj->has_bump, &obj->bump);
+	init_texture(data, obj->has_checkerboard, &obj->checkerboard);
+}
+
 void	init_images(t_data *data)
 {
 	t_list	*lst;
-	t_obj	*obj;
 
 	lst = data->objects;
 	while (lst)
 	{
-		obj = lst->content;
-		init_textures(data, true, &obj->texture);
-		init_textures(data, obj->has_bump, &obj->bump);
-		init_textures(data, obj->has_checkerboard, &obj->checkerboard);
+		init_textures(data, lst->content);
 		lst = lst->next;
 	}
 }
 
-static void	free_textures(t_data *data, t_obj *obj)
+void	free_textures(t_data *data, t_obj *obj)
 {
 	if (obj->texture.image)
 	{

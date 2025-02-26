@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:15:14 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 09:53:23 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:13:39 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_mlx(t_data *data)
 	mlx_key_hook(data->window, key_hook, data);
 	mlx_mouse_hook(data->window, mouse_hook, data);
 	mlx_expose_hook(data->window, expose_hook, data);
+	mlx_loop_hook(data->mlx, loop_hook, data);
 	mlx_loop(data->mlx);
 	free_images(data);
 	mlx_destroy_window(data->mlx, data->window);
