@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:24:58 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/23 18:23:13 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:01:38 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-double	get_magnitude(t_vec *vec)
+inline double	get_magnitude(t_vec *vec)
 {
 	return (sqrt(vec_dot(*vec, *vec)));
 }
@@ -37,10 +37,9 @@ double	distance(t_vec *pos1, t_vec *pos2)
 
 inline t_vec	ray_at(t_ray *ray, double t)
 {
-	t_vec	vec;
-
-	vec.x = ray->pos.x + t * ray->dir.x;
-	vec.y = ray->pos.y + t * ray->dir.y;
-	vec.z = ray->pos.z + t * ray->dir.z;
-	return (vec);
+	return ((t_vec){
+		ray->pos.x + t * ray->dir.x,
+		ray->pos.y + t * ray->dir.y,
+		ray->pos.z + t * ray->dir.z
+	});
 }

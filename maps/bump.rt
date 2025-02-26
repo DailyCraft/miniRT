@@ -1,16 +1,12 @@
 #A	{brightness}	{color}
-A	0.8				255,255,255
+A	0.3				255,255,255
 
 #L	{pos}			{brightness}	{color}
-L	0,0,0			1				255,255,255
+L	15,0,10			1				255,255,255
 
 #C	{pos}			{dir}		{fov}
-C	80,0,10			0,0,-1		70
+C	0,0,15			0,0,-1		70
 
 #{id}	{pos}			[dir]		{extra}		{color/texture}		--bump={texture}		--checkerboard={color/texture}	--shininess={0..=500}
 #{id}	{pos}			[dir]		{extra}		{color/texture}		-b={texture}			-c={color/texture}				-s={0..=500}
-sp		70,2.5,0					1			255,255,255
-sp		70,-2.5,0					1			255,255,255
-sp		70,-2.5,2.5					1			255,255,255
-sp		20,0,0						1			255,255,255
-sp		80,0,0						8			maps/texture.xpm	-b=maps/bump.xpm
+sp		0,0,0						10			maps/texture.xpm	-b=maps/bump.xpm

@@ -1,5 +1,5 @@
 #A	{brightness}	{color}
-A	0.1				255,255,255
+A	0.2				255,255,255
 
 #L	{pos}			{brightness}	{color}
 L	0,0,150			1				255,255,255

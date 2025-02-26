@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:19:25 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 10:02:06 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:41:39 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,12 @@ static int	get_ray_color(t_data *data, t_camera *camera, int x, int y)
 
 	ray = gen_ray(camera, x, y);
 	object = get_object(data, &ray, &hit, DBL_MAX);
-	if (object)
-		return (get_phong_color(data, camera, object, &hit));
-	return (0);
+	if (!object)
+		return (0);
+	hit.u = 0;
+	hit.v = 0;
+	apply_bump(data, &hit);
+	return (get_phong_color(data, camera, object, &hit));
 }
 
 void	update_image(t_data *data, t_camera *camera)
@@ -99,5 +102,5 @@ void	update_image(t_data *data, t_camera *camera)
 			printf("%3.f %%\n", (float) y / HEIGHT * 100);
 		y++;
 	}
-	printf("%3.f %%\n", (float) y / HEIGHT * 100);
+	printf("%3.f %%\n", 100.f);
 }
