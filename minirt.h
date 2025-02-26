@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
+/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 15:55:11 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:31:50 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,13 @@ void	get_pixel_color(t_data *data, t_obj *object, t_hit *hit,
 bool	intersect(t_obj *object, t_ray *ray, t_hit *hit);
 t_obj	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max);
 t_ray	gen_ray(t_camera *camera, int x, int y);
+
+bool	inter_sphere(t_obj *object, t_ray *ray, t_hit *hit);
+bool	inter_plane(t_obj *object, t_ray *ray, t_hit *hit);
+bool	inter_cylinder(t_obj *object, t_ray *ray, t_hit *hit);
+bool 	intersect_triangle(t_obj *triangle_obj, t_ray *ray, t_hit *hit);
+
+bool	calculate_hit_point(double *hit, double disc, double h, double a);
+
 
 #endif
