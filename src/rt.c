@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:12:54 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 16:13:47 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 09:57:02 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ t_obj	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max)
 			{
 				min_dist = dist;
 				object = lst->content;
-				*hit = temp;
+				if (hit)
+					*hit = temp;
 			}
 		}
 		lst = lst->next;

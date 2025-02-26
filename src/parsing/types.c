@@ -3,22 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   types1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:17:33 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/25 20:27:33 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/26 09:45:15 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+static bool	is_type(char *type, char *name, size_t len, size_t required)
+{
+	if (ft_strcmp(type, name) != 0)
+		return (false);
+	if (len != required)
+	{
+		printf("Incorrect specs length.\n");
+		return (false);
+	}
+	return (true);
+}
+
 bool	parse_ambient(t_data *data, char **specs, size_t len, bool *status)
 {
-	if (!parsing_is_type(specs[0], "A", len, 3))
+	if (!is_type(specs[0], "A", len, 3))
 		return (false);
 	if (data->ambient)
 	{
-		printf("Multiple ambient light is unallowed!\n");
+		printf("Multiple ambient light is not allowed!\n");
 		return (2);
 	}
 	data->ambient = malloc(sizeof(t_ambient));
@@ -31,7 +43,7 @@ bool	parse_camera(t_data *data, char **specs, size_t len, bool *status)
 {
 	t_camera	*camera;
 
-	if (!parsing_is_type(specs[0], "C", len, 4))
+	if (!is_type(specs[0], "C", len, 4))
 		return (false);
 	camera = malloc(sizeof(t_camera));
 	camera->image = NULL;
@@ -46,40 +58,12 @@ bool	parse_light(t_data *data, char **specs, size_t len, bool *status)
 {
 	t_light	*light;
 
-	if (!parsing_is_type(specs[0], "L", len, 4))
+	if (!is_type(specs[0], "L", len, 4))
 		return (false);
 	light = malloc(sizeof(t_light));
 	ft_lstadd_back(&data->lights, ft_lstnew(light));
 	*status = parse_vec(specs[1], &light->pos, DBL_MAX, false)
 		&& parse_double(specs[2], &light->brightness, 0, 1)
 		&& parse_color(specs[3], &light->color);
-	return (true);
-}
-
-bool	parse_sphere(t_obj *object, char **specs, size_t len, bool *status)
-{
-	if (!parsing_is_type(specs[0], "sp", len, 4))
-		return (false);
-	object->type = SPHERE;
-	*status = parse_vec(specs[1], &object->pos, DBL_MAX, false)
-		&& parse_double(specs[2], &object->sphere.diameter, 0, DBL_MAX)
-		&& parse_texture(specs[3], object);
-	if (len == 5)
-		*status = *status && parse_bump(specs[4], &object->bump.image_path);
-	object->has_bump = false;
-	return (true);
-}
-
-bool	parse_plane(t_obj *object, char **specs, size_t len, bool *status)
-{
-	if (!parsing_is_type(specs[0], "pl", len, 4))
-		return (false);
-	object->type = PLANE;
-	*status = parse_vec(specs[1], &object->pos, DBL_MAX, false)
-		&& parse_vec(specs[2], &object->dir, 1, true)
-		&& parse_texture(specs[3], object);
-	if (len == 5)
-		*status = *status && parse_bump(specs[4], &object->bump.image_path);
-	object->has_bump = false;
 	return (true);
 }

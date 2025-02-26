@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:48:12 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 16:07:32 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:01:01 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static bool	inter_plane(t_obj *object, t_ray *ray, t_hit *hit)
 t_vec	vec_scale(t_vec *v, double s)
 {
 	t_vec	result;
-	
+
 	result.x = v->x * s;
 	result.y = v->y * s;
 	result.z = v->z * s;
@@ -128,6 +128,7 @@ static bool	inter_cylinder(t_obj *object, t_ray *ray, t_hit *hit)
 
 bool	intersect(t_obj *object, t_ray *ray, t_hit *hit)
 {
+	hit->obj = object;
 	return (
 		(object->type == SPHERE && inter_sphere(object, ray, hit))
 		|| (object->type == PLANE && inter_plane(object, ray, hit))

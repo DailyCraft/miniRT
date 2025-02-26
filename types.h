@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:57:37 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 16:17:38 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:00:32 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,9 @@ typedef union u_color
 
 typedef struct s_texture
 {
-	bool	is_color;
-	union
-	{
-		t_color	color;
-		struct
-		{
-			char	*image_path;
-			t_image	*image;
-		};
-	};
+	t_color	color;
+	char	*image_path;
+	t_image	*image;
 }	t_texture;
 
 typedef struct s_vec
@@ -62,14 +55,6 @@ typedef struct s_ray
 	t_vec	pos;
 	t_vec	dir;
 }	t_ray;
-
-typedef struct s_hit
-{
-	t_vec	pos;
-	t_vec	normal;
-	double	u;
-	double	v;
-}	t_hit;
 
 typedef struct s_ambient
 {
@@ -136,5 +121,14 @@ typedef struct s_object
 		} cone;
 	};
 }	t_obj;
+
+typedef struct s_hit
+{
+	t_obj	*obj;
+	t_vec	pos;
+	t_vec	normal;
+	double	u;
+	double	v;
+}	t_hit;
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/25 18:56:11 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/26 09:55:00 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,13 @@ bool	parse_cylinder(t_obj *object, char **specs, size_t len,
 bool	parse_triangle(t_obj *object, char **specs, size_t len,
 			bool *status);
 bool	parse_cone(t_obj *object, char **specs, size_t len, bool *status);
-bool	parsing_is_type(char *type, char *name, size_t len, size_t required);
+bool	parse_type(t_obj *obj, char *spec, size_t len);
+bool	parse_extra(t_obj *obj, char **specs, int *i);
 bool	parse_vec(char *spec, t_vec *vec, double limit, bool normalized);
-bool	parse_texture(char *spec, t_obj *object);
+bool	parse_texture(char *spec, t_texture *texture);
 bool	parse_color(char *spec, t_color *color);
 bool	parse_double(char *spec, double *value, double min, double max);
-bool	parse_bump(char *spec, char **path);
+bool	parse_option(t_obj *obj, char *spec);
 
 void	init_mlx(t_data *data);
 t_image	*mlx_create_image(t_data *data);
@@ -66,7 +67,8 @@ int		mouse_hook(int button, int x, int y, t_data *data);
 
 t_obj	*get_object(t_data *data, t_ray *ray, t_hit *hit, double max);
 t_ray	gen_ray(t_camera *camera, int x, int y);
-int		get_pixel_color(t_data *data, t_obj *object, t_hit *hit);
+void	get_pixel_color(t_data *data, t_obj *object, t_hit *hit,
+			t_color *color);
 
 void	update_image(t_data *data, t_camera *camera);
 bool	intersect(t_obj *object, t_ray *ray, t_hit *hit);
@@ -80,5 +82,12 @@ double	get_magnitude(t_vec *vec);
 void	normalize(t_vec *vec);
 double	distance(t_vec *pos1, t_vec *pos2);
 t_vec	ray_at(t_ray *ray, double t);
+
+void	sphere_uv(t_hit *hit);
+void	cylinder_uv(t_data *data, t_obj *object, t_hit *hit);
+void	plane_uv(t_hit *hit);
+
+void	init_images(t_data *data);
+void	free_images(t_data *data);
 
 #endif

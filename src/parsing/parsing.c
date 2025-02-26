@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:24:48 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/25 15:46:28 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:01:24 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,28 @@ static bool	get_specs(char *line, char ***specs, size_t *len)
 	return (true);
 }
 
-static bool	parse_object(t_data *data, char **specs, size_t len, bool *status)
+static bool	parse_object(t_data *data, char **specs, size_t len)
 {
-	t_obj	*object;
+	t_obj	*obj;
+	int		i;
 	bool	result;
 
-	object = malloc(sizeof(t_obj));
-	result = parse_sphere(object, specs, len, status)
-		|| parse_plane(object, specs, len, status)
-		|| parse_cylinder(object, specs, len, status)
-		|| parse_triangle(object, specs, len, status)
-		|| parse_cone(object, specs, len, status);
-	ft_lstadd_back(&data->objects, ft_lstnew(object));
+	obj = ft_calloc(1, sizeof(t_obj));
+	obj->shininess = 100;
+	i = 0;
+	result = parse_type(obj, specs[i++], len)
+		&& (obj->type == TRIANGLE
+			|| parse_vec(specs[i++], &obj->pos, DBL_MAX, false))
+		&& (obj->type == SPHERE || obj->type == TRIANGLE
+			|| parse_vec(specs[i++], &obj->dir, 1, true))
+		&& parse_extra(obj, specs, &i)
+		&& parse_texture(specs[i++], &obj->texture);
+	while (specs[i])
+	{
+		result = result && parse_option(obj, specs[i]);
+		i++;
+	}
+	ft_lstadd_back(&data->objects, ft_lstnew(obj));
 	return (result);
 }
 
@@ -46,19 +56,16 @@ static bool	parse_elem(t_data *data, char *line)
 	char	**specs;
 	size_t	len;
 	bool	result;
-	bool	status;
 
 	if (!get_specs(line, &specs, &len))
 		return (true);
-	result = parse_ambient(data, specs, len, &status)
-		|| parse_camera(data, specs, len, &status)
-		|| parse_light(data, specs, len, &status);
-	if (!result)
-		result = parse_object(data, specs, len, &status);
-	if (!result)
-		printf("Unknown element with identifier '%s'\n", specs[0]);
+	printf("%s", line);
+	if (!(parse_ambient(data, specs, len, &result)
+			|| parse_camera(data, specs, len, &result)
+			|| parse_light(data, specs, len, &result)))
+		result = parse_object(data, specs, len);
 	ft_free_split(specs);
-	return (result && status);
+	return (result);
 }
 
 static void	free_gnl(int fd, char *line)
@@ -82,6 +89,7 @@ bool	parse_file(t_data *data, int fd)
 		}
 		ft_free_set((void **) &line, get_next_line(fd));
 	}
+	printf("\n");
 	if (errno)
 		return (true);
 	if (!data->ambient)

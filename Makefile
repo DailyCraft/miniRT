@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+         #
+#    By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/22 08:59:59 by dvan-hum          #+#    #+#              #
-#    Updated: 2025/02/25 16:06:25 by cgrasser         ###   ########.fr        #
+#    Updated: 2025/02/26 10:05:44 by dvan-hum         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,9 @@ NAME = miniRT
 
 CC = gcc -Wall -Wextra -Werror -g
 
-SRC = events.c intersect.c main.c mlx.c operators.c rt.c uv.c vector.c view.c \
-	parsing/parsing.c parsing/types1.c parsing/types2.c parsing/utils.c
+SRC = events.c intersect.c main.c mlx_utils.c mlx.c operators.c rt.c uv.c vector.c view.c \
+	objs/cylinder.c objs/plane.c objs/sphere.c \
+	parsing/options.c parsing/parsing.c parsing/specs.c parsing/types.c parsing/utils.c
 OBJ = $(SRC:%.c=obj/%.o)
 INCLUDES = minirt.h types.h
 LIBS = minilibx/libmlx.a libft/libft.a

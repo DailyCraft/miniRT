@@ -6,13 +6,12 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:19:25 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/24 16:23:33 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:02:06 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-// TODO: custom shininess
 static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	t_vec *brightness)
 {
@@ -29,7 +28,8 @@ static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	r = vec_sub(vec_mul(&hit->normal, 2 * vec_dot(l, hit->normal)), l);
 	normalize(&r);
 	diffuse = light->brightness * fmax(vec_dot(l, hit->normal), 0);
-	specular = light->brightness * pow(fmax(vec_dot(r, v), 0), 100);
+	specular = light->brightness * pow(fmax(vec_dot(r, v), 0),
+			hit->obj->shininess);
 	brightness->x += light->color.r / 255 * (diffuse + specular);
 	brightness->y += light->color.g / 255 * (diffuse + specular);
 	brightness->z += light->color.b / 255 * (diffuse + specular);
@@ -42,8 +42,7 @@ static int	get_phong_color(t_data *data, t_camera *camera,
 	t_list	*lst;
 	t_light	*light;
 	t_ray	ray;
-	t_hit	temp;
-	int		object_color;
+	t_color	color;
 
 	brightness.x = data->ambient->color.r / 255 * data->ambient->brightness;
 	brightness.y = data->ambient->color.g / 255 * data->ambient->brightness;
@@ -55,16 +54,15 @@ static int	get_phong_color(t_data *data, t_camera *camera,
 		ray.pos = hit->pos;
 		ray.dir = vec_sub(light->pos, hit->pos);
 		normalize(&ray.dir);
-		if (!get_object(data, &ray, &temp, distance(&hit->pos, &light->pos)))
+		if (!get_object(data, &ray, NULL, distance(&hit->pos, &light->pos)))
 			sum_light(camera, hit, light, &brightness);
 		lst = lst->next;
 	}
-	object_color = get_pixel_color(data, object, hit);
+	get_pixel_color(data, object, hit, &color);
 	return (ft_rgb(
-			fmin((object_color >> 0 & 0xff) * brightness.x, 255),
-			fmin((object_color >> 8 & 0xff) * brightness.y, 255),
-			fmin((object_color >> 16 & 0xff) * brightness.z, 255)
-		));
+			fmin(color.r * brightness.x, 255),
+			fmin(color.g * brightness.y, 255),
+			fmin(color.b * brightness.z, 255)));
 }
 
 static int	get_ray_color(t_data *data, t_camera *camera, int x, int y)
