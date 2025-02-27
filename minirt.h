@@ -6,7 +6,7 @@
 /*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 16:31:50 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:36:09 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ t_ray	gen_ray(t_camera *camera, int x, int y);
 bool	inter_sphere(t_obj *object, t_ray *ray, t_hit *hit);
 bool	inter_plane(t_obj *object, t_ray *ray, t_hit *hit);
 bool	inter_cylinder(t_obj *object, t_ray *ray, t_hit *hit);
-bool 	intersect_triangle(t_obj *triangle_obj, t_ray *ray, t_hit *hit);
+bool	intersect_triangle(t_obj *triangle_obj, t_ray *ray, t_hit *hit);
 
+double	squale(double nb);
 bool	calculate_hit_point(double *hit, double disc, double h, double a);
-
 
 #endif

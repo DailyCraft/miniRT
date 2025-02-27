@@ -6,11 +6,16 @@
 /*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:48:12 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 17:03:02 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:47:59 by cgrasser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+double	squale(double n)
+{
+	return (n * n);
+}
 
 bool	calculate_hit_point(double *hit, double disc, double h, double a)
 {

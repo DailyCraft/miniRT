@@ -11,10 +11,10 @@ C	0,0,30			0,0,-1		80
 
 #{id}	{pos}			[dir]		{extra}		{color/texture}		--bump={texture}		--checkerboard={color/texture}	--shininess={0..=500}
 #{id}	{pos}			[dir]		{extra}		{color/texture}		-b={texture}			-c={color/texture}				-s={0..=500}
-sp		45,0,30						10			255,255,255
-sp		30,0,20						10			255,255,255
-sp		15,0,10						10			255,255,255
-sp		0,0,0						10			255,255,255
-sp		-15,0,10					10			255,255,255
-sp		-30,0,20					10			255,255,255
-sp		-45,0,30					10			255,255,255
+sp		45,0,30						10			maps/moon.xpm
+sp		30,0,20						10			maps/moon.xpm
+sp		15,0,10						10			maps/moon.xpm
+sp		0,0,0						10			maps/moon.xpm
+sp		-15,0,10					10			maps/moon.xpm
+sp		-30,0,20					10			maps/moon.xpm
+sp		-45,0,30					10			maps/moon.xpm
