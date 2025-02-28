@@ -3,36 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:48:12 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/27 15:47:59 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/28 08:59:39 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-double	squale(double n)
+double	compute_hit_point(double a, double h, t_vec *oc, double diameter)
 {
-	return (n * n);
-}
-
-bool	calculate_hit_point(double *hit, double disc, double h, double a)
-{
+	double	sqrt_disc;
 	double	t1;
 	double	t2;
-	double	sqrt_disc;
 
-	sqrt_disc = sqrt(disc);
+	sqrt_disc = sqrt(h * h - a * (vec_dot(*oc, *oc) - diameter * diameter / 4));
 	t1 = (h - sqrt_disc) / a;
 	t2 = (h + sqrt_disc) / a;
 	if (t1 > 0.0001)
-		*hit = t1;
+		return (t1);
 	else if (t2 > 0.0001)
-		*hit = t2;
-	else
-		return (false);
-	return (true);
+		return (t2);
+	return (-1);
 }
 
 bool	intersect(t_obj *object, t_ray *ray, t_hit *hit)
@@ -42,7 +35,7 @@ bool	intersect(t_obj *object, t_ray *ray, t_hit *hit)
 		(object->type == SPHERE && inter_sphere(object, ray, hit))
 		|| (object->type == PLANE && inter_plane(object, ray, hit))
 		|| (object->type == CYLINDER && inter_cylinder(object, ray, hit))
-		|| (object->type == TRIANGLE && intersect_triangle(object, ray, hit))
+		|| (object->type == TRIANGLE && inter_triangle(object, ray, hit))
 		|| (object->type == CONE && false)
 	);
 }

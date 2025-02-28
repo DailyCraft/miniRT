@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:19:25 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 14:41:39 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/28 10:41:28 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	sum_light(t_camera *camera, t_hit *hit, t_light *light,
 	normalize(&v);
 	l = vec_sub(light->pos, hit->pos);
 	normalize(&l);
-	r = vec_sub(vec_mul(&hit->normal, 2 * vec_dot(l, hit->normal)), l);
+	r = vec_sub(vec_mul(hit->normal, 2 * vec_dot(l, hit->normal)), l);
 	normalize(&r);
 	diffuse = light->brightness * fmax(vec_dot(l, hit->normal), 0);
 	specular = light->brightness * pow(fmax(vec_dot(r, v), 0),

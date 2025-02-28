@@ -9,5 +9,5 @@ C	0,0,15			0,0,-1		70
 
 #{id}	{pos}			[dir]		{extra}		{color/texture}		--bump={texture}		--checkerboard={color/texture}	--shininess={0..=500}
 #{id}	{pos}			[dir]		{extra}		{color/texture}		-b={texture}			-c={color/texture}				-s={0..=500}
-sp		0,0,0						10			maps/texture.xpm	-b=maps/bump.xpm
+sp		0,0,0						10			maps/earth.xpm		-b=maps/bump.xpm
 sp		-10,0,-10					10			maps/moon.xpm

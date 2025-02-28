@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 07:58:21 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/27 21:36:09 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:21:12 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ typedef struct s_data
 }	t_data;
 
 // Math
-t_vec	vec_add(t_vec *u, t_vec *v);
-t_vec	vec_sub(t_vec a, t_vec b);
-double	vec_dot(t_vec a, t_vec b);
-t_vec	vec_cross(t_vec *u, t_vec *v);
-t_vec	vec_mul(t_vec *v, double d);
+t_vec	vec_add(t_vec u, t_vec v);
+t_vec	vec_sub(t_vec u, t_vec v);
+double	vec_dot(t_vec u, t_vec v);
+t_vec	vec_cross(t_vec u, t_vec v);
+t_vec	vec_mul(t_vec v, double d);
 
 double	get_magnitude(t_vec *vec);
 void	normalize(t_vec *vec);
@@ -86,6 +86,7 @@ void	free_textures(t_data *data, t_obj *obj);
 void	sphere_uv(t_hit *hit);
 void	cylinder_uv(t_data *data, t_obj *object, t_hit *hit);
 void	plane_uv(t_hit *hit);
+void	triangle_uv(t_hit *hit);
 void	apply_bump(t_data *data, t_hit *hit);
 void	get_pixel_color(t_data *data, t_obj *object, t_hit *hit,
 			t_color *color);
@@ -98,9 +99,8 @@ t_ray	gen_ray(t_camera *camera, int x, int y);
 bool	inter_sphere(t_obj *object, t_ray *ray, t_hit *hit);
 bool	inter_plane(t_obj *object, t_ray *ray, t_hit *hit);
 bool	inter_cylinder(t_obj *object, t_ray *ray, t_hit *hit);
-bool	intersect_triangle(t_obj *triangle_obj, t_ray *ray, t_hit *hit);
+bool	inter_triangle(t_obj *triangle_obj, t_ray *ray, t_hit *hit);
 
-double	squale(double nb);
-bool	calculate_hit_point(double *hit, double disc, double h, double a);
+double	compute_hit_point(double a, double h, t_vec *oc, double diameter);
 
 #endif

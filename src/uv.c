@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:10:15 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 15:13:53 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:27:17 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	compute_uv(t_data *data, t_obj *object, t_hit *hit)
 		plane_uv(hit);
 	else if (object->type == CYLINDER)
 		cylinder_uv(data, object, hit);
+	else if (object->type == TRIANGLE)
+		triangle_uv(hit);
 }
 
 static int	get_texture_color(t_data *data, t_obj *object,
@@ -38,7 +40,7 @@ static int	get_texture_color(t_data *data, t_obj *object,
 
 static float	get_height(t_image *image, int x, int y)
 {
-	return ((image->data[y * image->width + x] & 0xff) / 255.f * 2 - 1);
+	return ((image->data[y * image->width + x] & 0xff) / 127.5 - 1);
 }
 
 void	apply_bump(t_data *data, t_hit *hit)
@@ -70,22 +72,16 @@ void	apply_bump(t_data *data, t_hit *hit)
 
 void	get_pixel_color(t_data *data, t_obj *object, t_hit *hit, t_color *color)
 {
+	t_texture	*texture;
+
 	compute_uv(data, object, hit);
 	if (object->has_checkerboard
 		&& fmod(floor(hit->u * 50) + floor(hit->v * 50), 2) == 0)
-	{
-		if (!object->checkerboard.image)
-			*color = object->checkerboard.color;
-		else
-			color->color = get_texture_color(data, object,
-					object->checkerboard.image, hit);
-	}
+		texture = &object->checkerboard;
 	else
-	{
-		if (!object->texture.image)
-			*color = object->texture.color;
-		else
-			color->color = get_texture_color(data, object,
-					object->texture.image, hit);
-	}
+		texture = &object->texture;
+	if (!texture->image)
+		*color = texture->color;
+	else
+		color->color = get_texture_color(data, object, texture->image, hit);
 }

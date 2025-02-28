@@ -14,5 +14,5 @@ C	0,0,50			0,0,-1		70
 pl		0,0,0			0,1.0,0					255,0,225
 sp		0,0,0						20			255,255,255
 sp		30,0,0						20			255,0,0
-sp		-30,0,0						20			maps/texture.xpm
-cy		50.0,0.0,20.6	0,1,0.0		14.2 21.42	maps/texture.xpm	--bump=maps/bump.xpm	--checkerboard=255,255,255		--shininess=100
+sp		-30,0,0						20			maps/earth.xpm
+cy		50.0,0.0,20.6	0,1,0.0		14.2 21.42	maps/earth.xpm		--bump=maps/bump.xpm	--checkerboard=255,255,255		--shininess=100

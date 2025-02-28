@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgrasser <cgrasser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 09:48:22 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/27 15:49:20 by cgrasser         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:30:53 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@ bool	inter_sphere(t_obj *object, t_ray *ray, t_hit *hit)
 	double	a;
 	double	h;
 	double	t_hit;
-	double	discriminant;
 
 	oc = vec_sub(object->pos, ray->pos);
 	a = vec_dot(ray->dir, ray->dir);
 	h = vec_dot(ray->dir, oc);
-	discriminant = h * h - a * (vec_dot(oc, oc)
-			- squale(object->sphere.diameter / 2.0));
-	if (!calculate_hit_point(&t_hit, discriminant, h, a))
+	t_hit = compute_hit_point(a, h, &oc, object->sphere.diameter);
+	if (t_hit == -1)
 		return (false);
 	hit->pos = ray_at(ray, t_hit);
 	hit->normal = vec_sub(hit->pos, object->pos);
@@ -35,6 +33,6 @@ bool	inter_sphere(t_obj *object, t_ray *ray, t_hit *hit)
 
 void	sphere_uv(t_hit *hit)
 {
-	hit->u = atan2(hit->normal.x, hit->normal.z) / (2 * M_PI) + 0.5;
+	hit->u = atan2(hit->normal.z, hit->normal.x) / (2 * M_PI);
 	hit->v = acos(hit->normal.y) / M_PI;
 }

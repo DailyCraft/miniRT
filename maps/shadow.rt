@@ -13,4 +13,4 @@ sp		70,2.5,0					1			255,255,255
 sp		70,-2.5,0					1			255,255,255
 sp		70,-2.5,2.5					1			255,255,255
 sp		20,0,0						1			255,255,255
-sp		80,0,0						8			maps/texture.xpm	-b=maps/bump.xpm
+sp		80,0,0						8			maps/earth.xpm		-b=maps/bump.xpm

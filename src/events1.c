@@ -6,7 +6,7 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.fr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:17:06 by dvan-hum          #+#    #+#             */
-/*   Updated: 2025/02/26 11:56:30 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:49:23 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	change_cam(t_data *data)
 	ft_lstadd_back(&data->cameras, first);
 }
 
-static void	move(t_data *data, int key)
+static bool	move(t_data *data, int key)
 {
 	t_camera	*camera;
 	t_vec		temp;
@@ -30,24 +30,23 @@ static void	move(t_data *data, int key)
 	camera = data->cameras->content;
 	if (key == XK_w || key == XK_s)
 	{
-		temp = vec_mul(&camera->dir, 10 - 20 * (key == XK_s));
-		camera->pos = vec_add(&camera->pos, &temp);
+		camera->pos = vec_add(camera->pos,
+				vec_mul(camera->dir, 10 - 20 * (key == XK_s)));
 	}
 	else if (key == XK_a || key == XK_d)
 	{
-		ft_memset(&temp, 0, sizeof(t_vec));
 		if (camera->dir.x == 0 && camera->dir.y == 1 && camera->dir.z == 0)
-			temp.x = 1;
+			temp = (t_vec){0, 0, 1};
 		else
-		{
-			temp.y = 1;
-			temp = vec_cross(&camera->dir, &temp);
-		}
-		temp = vec_mul(&temp, 10 - 20 * (key == XK_a));
-		camera->pos = vec_add(&camera->pos, &temp);
+			temp = vec_cross(camera->dir, (t_vec){0, 1, 0});
+		camera->pos = vec_add(camera->pos,
+				vec_mul(temp, 10 - 20 * (key == XK_d)));
 	}
 	else if (key == XK_space || key == XK_Shift_L)
 		camera->pos.y += 10 - 20 * (key == XK_Shift_L);
+	else
+		return (false);
+	return (true);
 }
 
 int	key_hook(int key, t_data *data)
@@ -65,15 +64,15 @@ int	key_hook(int key, t_data *data)
 		data->selected->pos.y += 10 - 20 * (key == XK_g);
 	else if (data->selected && (key == XK_r || key == XK_y))
 		data->selected->pos.z += 10 - 20 * (key == XK_r);
-	else if (data->selected && (key == XK_Delete))
+	else if (data->selected && (key == XK_Delete || key == XK_BackSpace))
 	{
 		free_textures(data, data->selected);
 		ft_lstdeli(&data->objects,
 			ft_lstindex(data->objects, data->selected, NULL), free);
 		data->selected = NULL;
 	}
-	else
-		move(data, key);
+	else if (!move(data, key))
+		return (0);
 	expose_hook(data);
 	return (0);
 }
